@@ -1,6 +1,7 @@
 /**
  * Created by dandan.wu on 16/9/13.
  */
+'use strict';
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -17,7 +18,7 @@ function minifyConfig() {
     }
 }
 
-let htmlWebpackPluginConfig = {
+var htmlWebpackPluginConfig = {
     title: "GoodBye Dear",
     version: "0.0.1",
     // favicon: `${DEV_CONST.ASSETS_ICONS_16X16_ICON}`,
@@ -36,7 +37,7 @@ module.export = {
     entry: __dirname + "web/main.js",
     output: {
         path: __dirname + "public",
-        name: "bundle.js"
+        filename: "bundle.js"
     },
     modules: {
         loaders: [
@@ -61,10 +62,6 @@ module.export = {
             },
             {
                 test: /\.jade$/,  loader: "jade?pretty=true"
-            },
-            {
-                test: /\.(png|jpe?g|gif)$/,
-                loader: `url?name=imgs/[name].[ext]&limit=10000]}}`
             }
         ]
     },
