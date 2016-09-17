@@ -7,12 +7,15 @@ import * as DEV_CONST from './const';
 
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
-var config = require('../webpack.config.babel');
-
-
+var config = require('./webpack.config.babel.js');
+var path = require('path');
+let contentBase = path.resolve(__dirname, "../dist");
+let publicPath = path.resolve(__dirname, "../public");
+console.info(path.resolve(__dirname, "../public"));
+console.info(path.resolve(__dirname, "../web/main.js"));
 new WebpackDevServer(webpack(config), {
-    contentBase: './public',
-    publicPath: config.output.publicPath,
+    contentBase: contentBase,
+    publicPath: publicPath,
     headers: { "X-Custom-Header": "yes" },
     stats: { colors: true },
     colors: true,
@@ -23,5 +26,5 @@ new WebpackDevServer(webpack(config), {
     if (err) {
         console.error(err);
     }
-    console.log(`webpack dev server start, http://localhost:${devPort}`);
+    console.log(`webpack dev server start, http://localhost:3999`);
 });
