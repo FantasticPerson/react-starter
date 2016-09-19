@@ -10,8 +10,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack-server": "nodemon ./dev/webpack-server.js --exec babel-node",
-    "start": "webpack --config webpack.config.js"
+    "webpack-server": "nodemon ./dev/webpack-server.js --exec babel-node"
   },
   "dependencies": {
     "babel-preset-stage-0": "^6.5.0",
@@ -54,8 +53,7 @@
     "webpack-cleanup-plugin": "^0.3.0",
     "webpack-dev-server": "1.15.1",
     "blueimp-tmpl": "^3.4.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "babel-plugin-add-module-exports": "^0.2.1"
+    "babel-preset-stage-0": "^6.5.0"
   },
   "author": "dandan.wu",
   "license": "ISC"

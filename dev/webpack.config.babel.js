@@ -7,6 +7,62 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var path = require('path');
 
+
+// var path = require("path");
+module.exports = {
+    devtool: "eval-source-map",
+    entry: {
+        app: [path.join(__dirname, "../web/main.js")]
+    },
+    output: {
+        path: path.resolve(__dirname, "../dist"),
+        publicPath: "",
+        filename: "bundle.js"
+    },
+    modules: {
+        loaders: [
+            {
+                test: /\.js$/,
+                exclude: /node_modeule/,
+                loader: ['react-hot', 'babel'],
+                query: {
+                    presents: ['es2015', 'react']
+                }
+            },
+            {
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract(['css'])
+            },
+            {
+                test: /\.styl$/,
+                loader: ExtractTextPlugin.extract(['css', 'stylus'])
+            },
+            {
+                test: /\.html$/, loader: "html"
+            },
+            {
+                test: /\.jade$/, loader: "jade?pretty=true"
+            }
+        ],
+        plugins: [
+            new webpack.HotModuleReplacementPlugin(),
+            new HtmlWebpackPlugin(Object.assign({
+                //see default html template engine. https://github.com/blueimp/JavaScript-Templates
+                template: path.join(__dirname, "../web/templates/bootup.jade"),
+                filename: "bootup.html",
+                excludeChunks: "main"
+            }, htmlWebpackPluginConfig)),
+
+            //main
+            new HtmlWebpackPlugin(Object.assign({
+                //see default html template engine. https://github.com/blueimp/JavaScript-Templates
+                template: path.join(__dirname, "../web/template/main.jade"),
+                filename: "main.html",
+                excludeChunks: "bootup"
+            }, htmlWebpackPluginConfig))
+        ]
+    }
+};
 function minifyConfig() {
     return false;
     //see https://github.com/kangax/html-minifier#options-quick-reference
@@ -14,11 +70,10 @@ function minifyConfig() {
         removeComments: true,
         removeCommentsFromCDATA: true,
         collapseInlineTagWhitespace: true,
-        minifyJS: true,
         minifyCSS: true
     }
 }
-
+//
 var htmlWebpackPluginConfig = {
     title: "GoodBye Dear",
     version: "0.0.1",
@@ -31,62 +86,62 @@ var htmlWebpackPluginConfig = {
     cache: true,
     showErrors: true
 };
-
-
-export function webpackConfig() {
-    return {
-        devtool: "eval-source-map",
-        entry: path.resolve(__dirname, "../web/main.js"),
-        output: {
-            path: path.resolve(__dirname, "../public"),
-            publicPath: path.resolve(__dirname, "../public"),
-            filename: "bundle.js"
-        },
-        modules: {
-            loaders: [
-                {
-                    test: /\.js$/,
-                    exclude: /node_modeule/,
-                    loader: ['react-hot', 'babel'],
-                    query: {
-                        presents: ['es2015', 'react']
-                    }
-                },
-                {
-                    test: /\.css$/,
-                    loader: ExtractTextPlugin.extract(['css'])
-                },
-                {
-                    test: /\.styl$/,
-                    loader: ExtractTextPlugin.extract(['css', 'stylus'])
-                },
-                {
-                    test: /\.html$/, loader: "html"
-                },
-                {
-                    test: /\.jade$/, loader: "jade?pretty=true"
-                }
-            ]
-        },
-        plugins: [
-            new webpack.HotModuleReplacementPlugin(),
-            new HtmlWebpackPlugin(Object.assign({
-                //see default html template engine. https://github.com/blueimp/JavaScript-Templates
-                template: __dirname + "../web/templates/bootup.jade",
-                filename: "bootup.html",
-                excludeChunks: "main"
-            }, htmlWebpackPluginConfig)),
-
-            //main
-            new HtmlWebpackPlugin(Object.assign({
-                //see default html template engine. https://github.com/blueimp/JavaScript-Templates
-                template: __dirname + "../web/template/main.jade",
-                filename: "main.html",
-                excludeChunks: "bootup"
-            }, htmlWebpackPluginConfig))
-        ]
-    }
-}
-
-let defaultConfig = webpackConfig();
-export default defaultConfig;
+//
+//
+// export function webpackConfig() {
+//     return {
+//         devtool: "eval-source-map",
+//         entry: [path.join(__dirname, "../web/main.js")],
+//         output: {
+//             path: path.join(__dirname, "../dist"),
+//             publicPath: '',
+//             filename: "bundle.js"
+//         },
+//         modules: {
+//             loaders: [
+//                 {
+//                     test: /\.js$/,
+//                     exclude: /node_modeule/,
+//                     loader: ['react-hot', 'babel'],
+//                     query: {
+//                         presents: ['es2015', 'react']
+//                     }
+//                 },
+//                 {
+//                     test: /\.css$/,
+//                     loader: ExtractTextPlugin.extract(['css'])
+//                 },
+//                 {
+//                     test: /\.styl$/,
+//                     loader: ExtractTextPlugin.extract(['css', 'stylus'])
+//                 },
+//                 {
+//                     test: /\.html$/, loader: "html"
+//                 },
+//                 {
+//                     test: /\.jade$/, loader: "jade?pretty=true"
+//                 }
+//             ]
+//         },
+//         plugins: [
+//             new webpack.HotModuleReplacementPlugin(),
+//             new HtmlWebpackPlugin(Object.assign({
+//                 //see default html template engine. https://github.com/blueimp/JavaScript-Templates
+//                 template: path.join(__dirname,"../web/templates/bootup.jade"),
+//                 filename: "bootup.html",
+//                 excludeChunks: "main"
+//             }, htmlWebpackPluginConfig)),
+//
+//             //main
+//             new HtmlWebpackPlugin(Object.assign({
+//                 //see default html template engine. https://github.com/blueimp/JavaScript-Templates
+//                 template: path.join(__dirname , "../web/template/main.jade"),
+//                 filename: "main.html",
+//                 excludeChunks: "bootup"
+//             }, htmlWebpackPluginConfig))
+//         ]
+//     }
+// }
+//
+// let defaultConfig = webpackConfig();
+// export default defaultConfig;

@@ -9,13 +9,15 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config.babel.js');
 var path = require('path');
-let contentBase = path.resolve(__dirname, "../dist");
-let publicPath = path.resolve(__dirname, "../public");
-console.info(path.resolve(__dirname, "../public"));
-console.info(path.resolve(__dirname, "../web/main.js"));
-new WebpackDevServer(webpack(config), {
+let contentBase = path.join(__dirname, "../dist");
+let publicPath = path.join(__dirname, "../public");
+
+function cb(){
+    console.info('get callback');
+}
+new WebpackDevServer(webpack(config,cb), {
     contentBase: contentBase,
-    publicPath: publicPath,
+    publicPath: '',
     headers: { "X-Custom-Header": "yes" },
     stats: { colors: true },
     colors: true,
