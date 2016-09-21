@@ -3,13 +3,24 @@
  */
 import React,{Component,PropTypes} from 'react';
 import {connect} from 'react-redux';
+import UserList from './userList/index';
 
-export default class App extends Component {
+@connect(
+    state=>({
+        list: state.userList.list
+    })
+)
+class App extends Component {
     render(){
         return (
-            <div>
-                start here
+            <div id="react-app">
+                {this.props.children}
             </div>
         )
     }
+}
+
+export default {
+    App,
+    UserList
 }

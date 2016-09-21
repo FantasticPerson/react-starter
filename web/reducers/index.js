@@ -3,16 +3,14 @@
  */
 import {combineReducers} from 'redux';
 import {routerReducer} from 'react-router-redux'
-import {nestCombineReducers,
-        handleActionsReducor,
-        defaultStateReducor,
-        actionPayloadReducer} from '../utils/reducer-helper';
+import {nestCombineReducers, handleActionsReducor} from '../utils/reducer-helper';
+import * as userList from './userList'
 
 export const rootReducer = nestCombineReducers({
     routing:routerReducer,
-    app:{
-        name:'dandan-react-starter'
+    userList: {
+        list: handleActionsReducor([], userList.list)
     }
-})
+});
 
 export default rootReducer;

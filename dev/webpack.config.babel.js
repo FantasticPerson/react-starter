@@ -97,7 +97,6 @@ function headerEmbedJs(options) {
       ${__DEBUG__ ? "console.log('__BUILD_TIME_STAMP__:', __BUILD_TIME_STAMP__)" : ""}
       ${__DEBUG__ ? "console.log('__BUILD_TIME_STR__:', __BUILD_TIME_STR__)" : ""}
       ${__DEBUG__ ? "console.log('__ELECTRON__:', __ELECTRON__)" : ""}
-      ${__DEBUG__ ? "console.log('__APP_ENV_JSON__:', __APP_ENV_JSON__)" : ""}
       ${__DEBUG__ ? "console.log('-------------------------------------')" : ""}
       ${__DEBUG__ ? "console.log('')" : ""}
   `;
