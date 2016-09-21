@@ -31,7 +31,8 @@ let devServer = new WebpackDevServer(webpack(config), {
     lazy: false,
     quiet: false,
     noInfo: false,
-    index: 'main.html'
+    index: 'main.html',
+    historyApiFallback: true
 });
 
 devServer.use(express.static(DEV_CONST.ASSETS_PUBLIC_DIR, {maxAge:0}));
