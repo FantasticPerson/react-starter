@@ -7,7 +7,6 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import webpack, {DefinePlugin, NoErrorsPlugin, HotModuleReplacementPlugin,} from 'webpack';
 
 let buildDate = new Date();
-let __DEBUG__ = true;
 let BUILD_TIME_STAMP = buildDate.getTime();
 let BUILD_TIME_STR = buildDate.toString();
 
@@ -57,7 +56,7 @@ function entryConfig(options) {
 
     if (options.devServer) {
         let devServerConfig = [
-            `webpack-dev-server/client?http://127.0.0.1:${3999}`,
+            `webpack-dev-server/client?http://127.0.0.1:${DEV_CONST.DEV_PORT}`,
             `webpack/hot/only-dev-server`
         ];
 
@@ -159,9 +158,9 @@ export function webpackConfig(options) {
             loaders: [
                 {
                     test: /\.js[x]?$/,
-                    include: path.resolve(__dirname,'../web'),
-                    exclude: path.resolve(__dirname,'../node_modules'),
-                    loaders: __DEBUG__ ? ['babel'] : ['babel']
+                    include: DEV_CONST.SRC_DIR,
+                    exclude: DEV_CONST.NODE_MODULES_DIR,
+                    loaders: DEV_CONST.APP_DEBUG ?  ['babel'] : ['babel']
                 },
                 {
                     test: /\.css$/,
@@ -197,45 +196,19 @@ export function webpackConfig(options) {
                 warnings: false,
                 dead_code: true
             }),
-
             new DefinePlugin({
                     __DEBUG__: DEV_CONST.APP_DEBUG
                 }
             ),
-
             new webpack.optimize.OccurenceOrderPlugin(),
-
-            //new webpack.optimize.CommonsChunkPlugin({
-            //  name: `${DEV_CONST.WEB_VERDOR_COMMON_NAME}`,
-            //  filename: `${DEV_CONST.WEB_VERDOR_COMMON_NAME}-bundle-[[hash]].js`,
-            //}),
-
             new ExtractTextPlugin(`[name]-bundle-[[contenthash]].css`, {
                 allChunks: true
             }),
-
-            //bootup
-            //new HtmlWebpackPlugin(Object.assign({
-            //  //see default html template engine. https://github.com/blueimp/JavaScript-Templates
-            //  template: DEV_CONST.SRC_WEB_HTML_BOOTUP_FILE,
-            //  filename: `./${DEV_CONST.OUTPUT_WEB_HTML_BOOTUP_FILE}`,
-            //  excludeChunks: [DEV_CONST.WEB_MAIN_NAME]
-            //}, htmlWebpackPluginConfig(options))),
-
-            //main
             new HtmlWebpackPlugin(Object.assign({
-                //see default html template engine. https://github.com/blueimp/JavaScript-Templates
                 template: DEV_CONST.SRC_WEB_HTML_MAIN_FILE,
                 filename: `./${DEV_CONST.OUTPUT_WEB_HTML_MAIN_FILE}`,
                 excludeChunks: DEV_CONST.SRC_WEB_HTML_BOOTUP_FILE
             }, htmlWebpackPluginConfig(options))),
-
-            //debug
-            //new HtmlWebpackPlugin(Object.assign({
-            //  //see default html template engine. https://github.com/blueimp/JavaScript-Templates
-            //  template: DEV_CONST.SRC_WEB_HTML_DEBUG_FILE,
-            //  filename: `./${DEV_CONST.OUTPUT_WEB_HTMLDEBUG_FILE}`,
-            //}, htmlWebpackPluginConfig(options))),
         ].filter(function (item) {
             return !!item;
         })

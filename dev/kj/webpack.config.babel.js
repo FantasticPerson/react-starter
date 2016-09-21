@@ -271,7 +271,7 @@ export function webpackConfig(options) {
           test: /\.js[x]?$/,
           include: [DEV_CONST.SRC_DIR],
           exclude: [DEV_CONST.NODE_MODULES_DIR],
-          loaders: __DEV__ ? ['babel'] : ['babel']
+          loaders: __DEV__ ? ['react-hot', 'babel'] : ['babel']
         },
         //css
         // Extract css files
