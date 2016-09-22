@@ -19,20 +19,13 @@ let devServer = new WebpackDevServer(webpack(config), {
         'Access-Control-Allow-Origin': '*',
         "X-Custom-Header": "yes"
     },
-    proxy: {
-        '*': {
-            changeOrigin:true,
-            target: 'http://61.155.85.77:10006',
-        }
-    },
     stats: { colors: true },
     colors: true,
     hot: true,
     lazy: false,
     quiet: false,
     noInfo: false,
-    index: 'main.html',
-    historyApiFallback: true
+    index: 'main.html'
 });
 
 devServer.use(express.static(DEV_CONST.ASSETS_PUBLIC_DIR, {maxAge:0}));
