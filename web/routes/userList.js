@@ -2,10 +2,11 @@
  * Created by dandan.wu on 16/9/21.
  */
 import Pages from '../containers/index'
+import User from '../containers/userList/index'
 
 const user = {
     path: 'user',
-    component: Pages.UserList,
+    component: User,
     onEnter: (nextState, replace, cb) => {
         cb();
     },

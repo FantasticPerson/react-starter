@@ -5,8 +5,10 @@ import React,{Component,PropTypes} from 'react';
 import {connect} from 'react-redux';
 import UserItem from './components/UserItem';
 import * as UserListActions from '../../actions/userList';
-import * as ViewState from '../../constants/viewState';
+import * as ViewState from '../../constants/view';
 import {fetch_post} from '../../utils/mFetch';
+// import * as userAction from '../../actions/userList';
+import {showUserAddOverLay,removeUserAddOverLay} from '../../actions/view';
 // import {Modal} from 'react-overlays'
 
 class UserList extends Component{
@@ -25,6 +27,7 @@ class UserList extends Component{
 
     onAddClickHandler(){
         this.setState({showAdd:true});
+        this.props.dispatch(showUserAddOverLay());
 
         console.log('on add click');
     }
@@ -83,10 +86,12 @@ class UserList extends Component{
 
     onAddConfirm(){
         this.setState({showAdd:false});
+        this.props.dispatch(removeUserAddOverLay());
         fetch_post('customer/add');
     }
 
     onAddCancel(){
+        this.props.dispatch(removeUserAddOverLay());
         this.setState({showAdd:false})
     }
 
@@ -128,11 +133,10 @@ class UserList extends Component{
                             {userList}
                         </tbody>
                     </table>
-                    {this.renderAdd()}
+                    <div onClick={(e)=>{this.props.dispatch(UserListActions.change())}}>click here</div>
                 </div>
-
             )
-        }
+        }//{this.renderAdd()}
         return (
             <div>loading</div>
         )

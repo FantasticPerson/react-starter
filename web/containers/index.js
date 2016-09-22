@@ -1,45 +1,38 @@
 /**
  * Created by dandan.wu on 16/9/13.
  */
-import React,{Component,PropTypes} from 'react';
+import React,{Component} from 'react';
 import {connect} from 'react-redux';
-import UserList from './userList/index';
-// import {Overlay} from 'react-overlays';
-// import UserAddOverLay from '../containers/userList/components/UserAddOverLay'
+import UserAddOverLay from '../containers/userList/components/UserAddOverLay'
+import * as overLayNames from '../constants/OverLayNames';
 
-@connect(
-    state=>({
-        list: state.userList.list,
-    })
-)
-// let overLayMap = {
-//     '1': '1',
-//     '2': '2'
-// }
 class App extends Component {
-
     renderOverLay(){
-        const overLayArr = ['1','2']
-        overLayArr.map((name,index)=>{
 
+        return this.props.overLayList.map((name,index)=>{
+            let cp = overLayNames.overLayMap[name];
+            if(cp){
+                return React.createElement(cp,{key:index})
+            } else {
+                console.error('the overLay name ' + name + ' may be not defines');
+            }
+            return React.createElement(UserAddOverLay,{key:index})
         });
-
-
-        // <Modal>
-        //
-        // </Modal>
     }
     render(){
         return (
             <div id="react-app">
+                {this.renderOverLay()}
                 {this.props.children}
-
             </div>
         )
     }
 }
 
-export default {
-    App,
-    UserList
+function mapStateToProps(state) {
+    return {
+        overLayList : state.view.overLayList
+    }
 }
+
+export default connect(mapStateToProps)(App)

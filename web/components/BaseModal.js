@@ -1,17 +1,30 @@
 /**
  * Created by dandan.wu on 16/9/21.
  */
-import React,{Component} from 'react';
+import React,{Component,createClass} from 'react';
 
-export default class BaseModal extends Component{
-    constructor(){
-        super()
-    }
+const Modal = React.createClass({
     render(){
-        return(
+        return (
             <div className="base-modal-container">
                 {this.props.children}
             </div>
         )
     }
-}
+});
+
+export default Modal;
+
+
+// export default class BaseModal extends Component{
+//     constructor(){
+//         super()
+//     }
+//     render(){
+//         return(
+//             <div className="base-modal-container">
+//                 {this.props.children}
+//             </div>
+//         )
+//     }
+// }
