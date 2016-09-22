@@ -7,9 +7,7 @@ import UserItem from './components/UserItem';
 import * as UserListActions from '../../actions/userList';
 import * as ViewState from '../../constants/view';
 import {fetch_post} from '../../utils/mFetch';
-// import * as userAction from '../../actions/userList';
 import {showUserAddOverLay,removeUserAddOverLay} from '../../actions/view';
-// import {Modal} from 'react-overlays'
 
 class UserList extends Component{
     constructor(){
@@ -38,46 +36,6 @@ class UserList extends Component{
 
     onDeleteClickHandler(){
         console.log('on delete click');
-    }
-
-    renderAdd(){
-        if(this.state.showAdd){
-            let divAndInputClassNames = [['user-add-name','user-add-input-name','名称'],['user-add-code','user-add-input-code','客户号'],
-                                            ['user-add-contact','user-add-input-contact','客户联系人'], ['user-add-ctel','user-add-input-ctel','联系方式'],
-                                            ['user-add-service','user-add-input-service','服务人员'], ['user-add-tcphost','user-add-input-tcphost','tcp地址'],
-                                            ['user-add-tcpport','user-add-input-tcpport','tcp端口'],['user-add-webhost','user-add-input-webhost','web地址'],
-                                            ['user-add-webport','user-add-input-webport','web端口'], ['user-add-filehost','user-add-input-filehost','file地址'],
-                                            ['user-add-fileport','user-add-input-fileport','file端口'],['user-add-duedate','user-add-input-duedate','LIC到期时间']];
-            var cGroup = [];
-            while (divAndInputClassNames.length) {cGroup.push(divAndInputClassNames.splice(0, 2))}
-            const trs =  cGroup.map((item,index)=>{
-                const divs = item.map((item2,index2)=>{
-                    let style2 = index2 > 0 ? {marginLeft:'10px'} : {};
-                    return (
-                        <div className="user-add-input-item" key={index2} style={style2}>
-                            <div className={item2[0]}>{item2[2]}</div>
-                            <input className={item2[1] + ' user-add-input-common'} onChange={(e)=>{this.onInputChange(e.target.value,item2[1])}}/>
-                        </div>
-                    )
-                });
-                return (<tr className="user-add-input-tr-item" key={index}>
-                    {divs}
-                </tr>);
-            });
-            return(
-                <div>
-                    <table>
-                        <tbody>
-                            {trs}
-                        </tbody>
-                    </table>
-                    <div className="user-add-btn-container">
-                        <button onClick={()=>{this.onAddConfirm()}}>{'Confirm'}</button>
-                        <button onClick={()=>{this.onAddCancel()}}>{'cancel'}</button>
-                    </div>
-                </div>
-            )
-        }
     }
 
     onInputChange(e,target){
@@ -136,7 +94,7 @@ class UserList extends Component{
                     <div onClick={(e)=>{this.props.dispatch(UserListActions.change())}}>click here</div>
                 </div>
             )
-        }//{this.renderAdd()}
+        }
         return (
             <div>loading</div>
         )

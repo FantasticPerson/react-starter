@@ -8,15 +8,16 @@ import * as overLayNames from '../constants/OverLayNames';
 
 class App extends Component {
     renderOverLay(){
-
-        return this.props.overLayList.map((name,index)=>{
+        const {overLayList,list} = this.props;
+        console.log('on renderOverLay');
+        return overLayList.map((name,index)=>{
             let cp = overLayNames.overLayMap[name];
             if(cp){
                 return React.createElement(cp,{key:index})
             } else {
-                console.error('the overLay name ' + name + ' may be not defines');
+                console.error('the overLay name ' + name + ' may be not defined');
             }
-            return React.createElement(UserAddOverLay,{key:index})
+            return React.createElement(cp,{key:index})
         });
     }
     render(){
@@ -30,8 +31,11 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
+    console.log('map state');
+    console.log(state);
     return {
-        overLayList : state.view.overLayList
+        overLayList : state.view.overLayList,
+        list :state.userList.list
     }
 }
 
