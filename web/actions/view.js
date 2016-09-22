@@ -7,7 +7,10 @@ import * as overLayNames from '../constants/OverLayNames'
 
 export function showUserAddOverLay(){
     return (dispatch,getState)=>{
-        let list = getState().view.overLayList;
+        let list = getState().view.overLayList.map((name)=> {
+                return name;
+            }
+        );
         if(list.indexOf(overLayNames.USER_ADD_OVER_LAY) >= 0){
             return;
         }
@@ -17,8 +20,11 @@ export function showUserAddOverLay(){
 }
 
 export function removeUserAddOverLay(){
-    return (dispatch,state)=>{
-        let list = state.view.overLayList;
+    return (dispatch,getState)=>{
+        let list = getState().view.overLayList.map((name)=> {
+                return name;
+            }
+        );
         if(list.indexOf(overLayNames.USER_ADD_OVER_LAY) < 0){
             return;
         }

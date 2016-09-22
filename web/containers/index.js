@@ -8,8 +8,7 @@ import * as overLayNames from '../constants/OverLayNames';
 
 class App extends Component {
     renderOverLay(){
-        const {overLayList,list} = this.props;
-        console.log('on renderOverLay');
+        const {overLayList} = this.props;
         return overLayList.map((name,index)=>{
             let cp = overLayNames.overLayMap[name];
             if(cp){
