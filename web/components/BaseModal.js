@@ -6,7 +6,8 @@ import React,{Component,createClass} from 'react';
 const Modal = React.createClass({
     render(){
         return (
-            <div className="base-modal-container">
+            <div className="base-modal-container-2">
+                <div className="modal-background"></div>
                 {this.props.children}
             </div>
         )
@@ -14,17 +15,3 @@ const Modal = React.createClass({
 });
 
 export default Modal;
-
-
-// export default class BaseModal extends Component{
-//     constructor(){
-//         super()
-//     }
-//     render(){
-//         return(
-//             <div className="base-modal-container">
-//                 {this.props.children}
-//             </div>
-//         )
-//     }
-// }
