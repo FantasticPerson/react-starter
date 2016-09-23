@@ -29,15 +29,30 @@ let addUser = {
 };
 
 export function fetch_post(url,obj){
-    let url2 = `${ADAPTER_URL}/${url}`+'?'+'code2:'+'123456';
+    let bodyData = new FormData();
+    bodyData.append('mac',"56:E8");
+    bodyData.append('code',"0513006");
+    bodyData.append('contact','xiaoliu');
+    bodyData.append('ctel','111111111111');
+    bodyData.append('filehost','5.111.11.11');
+    bodyData.append('fileport',8080);
+    bodyData.append('name','www.alo7.com');
+    bodyData.append('server','xiaowang');
+    bodyData.append('tcphost','66.66.6.66');
+    bodyData.append('tcpport',1004);
+    bodyData.append('timeout','2017-09-12');
+    bodyData.append('webhost','66.66.66.66');
+    bodyData.append('webport',1006);
+
+    let url2 = `${ADAPTER_URL}/${url}`;
     fetch(url2,{
             headers: {
-                "Content-Type":"multipart/form-data",
-                "Accept":'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+                "Content-Type":"application/x-www-form-urlencoded",
+                // "Accept":'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
                 // credentials: 'include'
             },
             method: 'post',
-            body:addUser
+            body:`code=1234&name=xiaowang`
         }
     )
     .then(response => response,

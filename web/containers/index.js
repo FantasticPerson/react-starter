@@ -3,7 +3,7 @@
  */
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
-import UserAddOverLay from '../containers/userList/components/UserAddOverLay'
+// import UserAddOverLay from '../containers/userList/components/UserAddOverLay'
 import * as overLayNames from '../constants/OverLayNames';
 
 class App extends Component {
@@ -12,11 +12,10 @@ class App extends Component {
         return overLayList.map((name,index)=>{
             let cp = overLayNames.overLayMap[name];
             if(cp){
-                return React.createElement(cp,{key:index})
+                return React.createElement(cp,{key:index,dispatch:this.props.dispatch})
             } else {
                 console.error('the overLay name ' + name + ' may be not defined');
             }
-            return React.createElement(cp,{key:index})
         });
     }
     render(){

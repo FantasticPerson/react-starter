@@ -7,10 +7,7 @@ import * as overLayNames from '../constants/OverLayNames'
 
 export function showUserAddOverLay(){
     return (dispatch,getState)=>{
-        let list = getState().view.overLayList.map((name)=> {
-                return name;
-            }
-        );
+        let list = getState().view.overLayList.map((name)=> {return name;});
         if(list.indexOf(overLayNames.USER_ADD_OVER_LAY) >= 0){
             return;
         }
@@ -21,14 +18,11 @@ export function showUserAddOverLay(){
 
 export function removeUserAddOverLay(){
     return (dispatch,getState)=>{
-        let list = getState().view.overLayList.map((name)=> {
-                return name;
-            }
-        );
+        let list = getState().view.overLayList.map((name)=> {return name;});
         if(list.indexOf(overLayNames.USER_ADD_OVER_LAY) < 0){
             return;
         }
-        list.remove(overLayNames.USER_ADD_OVER_LAY);
+        list.splice(list.indexOf(overLayNames.USER_ADD_OVER_LAY),1);
         dispatch(actionHelper.createPayloadAction(ActionTypes.update_over_lay_list,list));
     }
 }

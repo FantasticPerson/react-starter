@@ -3,6 +3,8 @@
  */
 import React,{Component} from 'react'
 import BaseModal from '../../../components/BaseModal'
+import {removeUserAddOverLay} from '../../../actions/view'
+import {fetch_post} from '../../../utils/mFetch'
 
 export default class UserAddOverLay extends Component{
     constructor(){
@@ -46,5 +48,17 @@ export default class UserAddOverLay extends Component{
                 </div>
             </BaseModal>
         )
+
+    }
+
+    onAddConfirm(){
+        this.setState({showAdd:false});
+        this.props.dispatch(removeUserAddOverLay());
+        fetch_post('customer/add');
+    }
+
+    onAddCancel(){
+        // this.props.dispatch(removeUserAddOverLay());
+        this.setState({showAdd:false})
     }
 }
