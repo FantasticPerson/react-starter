@@ -8,7 +8,7 @@ const ADAPTER_URL = 'http://61.155.85.77:10006/';
 
 export function fetch_post(url,data){
     let url2 = `${ADAPTER_URL}/${url}`;
-    fetch(url2,{
+    return fetch(url2,{
             headers: {
                 "Content-Type":"application/x-www-form-urlencoded",
             },

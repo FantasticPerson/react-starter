@@ -89,7 +89,7 @@ export default ({dispatch,getState})=>next=>action=> {
           action.onEnd(val);
         }
         if (action.callback) {
-          action.callback(null, val);
+          action.callback(val);
         }
       },
       (err) => {

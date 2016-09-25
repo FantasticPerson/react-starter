@@ -18,8 +18,17 @@ export function getUserList(cb = null){
             return myFetch.fetch_get(AdpterURL.GET_USER_LIST);
         },
         onEnd: function(data) {
-            this.dispatch(actionHelper.createPayloadAction(ActionTypes.user_list_update, userList));
+            if(!actionHelper.isError(data)) {
+                this.dispatch(actionHelper.createPayloadAction(ActionTypes.user_list_update, userList));
+            }
         }
     },cb);
+}
 
+export function postNewUser(data,cb=null){
+    return createRemoteOnlyDAO({
+        fromRemote:function(){
+            return myFetch.fetch_post(AdpterURL.POST_NEW_USER_DATA,data);
+        }
+    },cb);
 }

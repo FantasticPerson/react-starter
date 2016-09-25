@@ -5,6 +5,7 @@ import React,{Component} from 'react'
 import BaseModal from '../../../components/BaseModal'
 import {removeUserAddOverLay} from '../../../actions/view'
 import {fetch_post} from '../../../utils/mFetch'
+import {postNewUser} from '../../../actions/userList'
 
 export default class UserAddOverLay extends Component{
     constructor() {
@@ -72,13 +73,14 @@ export default class UserAddOverLay extends Component{
             for(var i = 1;i < results.length;i++){
                 data = data + '&' + results[i] + '=' + this.result[results[i]];
             }
-            console.log(data);
-            fetch_post('customer/add');
+            this.props.dispatch(postNewUser(data,this.onAddNewUserCb.bind(this)));
         } else {
             alert('信息没有填写完整');
         }
-        // this.props.dispatch(removeUserAddOverLay());
+    }
 
+    onAddNewUserCb(data){
+        console.log(data);
     }
 
     onAddCancel(){

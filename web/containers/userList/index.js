@@ -19,7 +19,7 @@ class UserList extends Component{
         this.props.dispatch(getUserList(this.getUserListCb.bind(this)));
     }
 
-    getUserListCb(){
+    getUserListCb(data){
         this.setState({view:ViewState.view_ready})
     }
 
