@@ -11,10 +11,12 @@ import {routerMiddleware} from 'react-router-redux'
 import createLogger from 'redux-logger';
 
 import rootReducer from '../reducers';
+import dal from '../middleware/dal'
 
 let middlewares = [
     redux_promise,
     thunk,
+    dal,
     routerMiddleware(hashHistory)
 ];
 

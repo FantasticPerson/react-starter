@@ -6,8 +6,8 @@ import React,{Component,createClass} from 'react';
 const Modal = React.createClass({
     render(){
         return (
-            <div className="base-modal-container-2">
-                <div className="modal-background"></div>
+            <div className="tr-base-modal-container">
+                <div className="tr-modal-background"></div>
                 {this.props.children}
             </div>
         )

@@ -1,5 +1,6 @@
-import {createAction} from 'redux-actions';
-
+/**
+ * Created by dandan.wu on 16/9/13.
+ */
 export const PENDING = {};
 
 export function isPending(value) {

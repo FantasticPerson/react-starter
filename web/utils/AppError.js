@@ -1,5 +1,7 @@
+/**
+ * Created by dandan.wu on 16/9/13.
+ */
 export const ERROR_TYPES = {
-  //1XXXX 表示系统层面的错误, 包括语法等, 参数, 网络等
   system_inner_error: 100001,
   network_error: 100002,
   http_status_error: 100003,

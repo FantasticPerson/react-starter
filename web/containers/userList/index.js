@@ -4,7 +4,7 @@
 import React,{Component,PropTypes} from 'react';
 import {connect} from 'react-redux';
 import UserItem from './components/UserItem';
-import * as UserListActions from '../../actions/userList';
+import {getUserList} from '../../actions/userList';
 import * as ViewState from '../../constants/view';
 import {fetch_post} from '../../utils/mFetch';
 import {showUserAddOverLay,removeUserAddOverLay} from '../../actions/view';
@@ -16,7 +16,7 @@ class UserList extends Component{
     }
 
     componentDidMount(){
-        this.props.dispatch(UserListActions.getUserList(this.getUserListCb.bind(this)));
+        this.props.dispatch(getUserList(this.getUserListCb.bind(this)));
     }
 
     getUserListCb(){
@@ -60,8 +60,8 @@ class UserList extends Component{
             const userList = list.map((item, index)=> {
                 const {name, code, contact, ctel, server, tcphost, tcpport, webhost, webport, filehost, fileport, timeout} = item;
                 return <UserItem key={index} name={name} code={code} contact={contact} ctel={ctel}
-                                 server={server} tcphost={tcphost} tcpport={tcpport} webhost={webhost}
-                                 webport={webport} filehost={filehost} fileport={fileport} duedate={timeout}/>;
+                         server={server} tcphost={tcphost} tcpport={tcpport} webhost={webhost}
+                         webport={webport} filehost={filehost} fileport={fileport} duedate={timeout}/>;
             });
             return (
                 <div className="user-list-container" style={{width:'1100px'}}>
@@ -91,7 +91,6 @@ class UserList extends Component{
                             {userList}
                         </tbody>
                     </table>
-                    <div onClick={(e)=>{this.props.dispatch(UserListActions.change())}}>click here</div>
                 </div>
             )
         }

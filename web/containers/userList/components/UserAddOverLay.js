@@ -44,8 +44,8 @@ export default class UserAddOverLay extends Component{
                         </table>
                     </fieldset>
                     <div className="user-add-btn-container">
-                        <button className="common-button-blue" onClick={()=>{this.onAddConfirm()}}>{'Confirm'}</button>
-                        <button className="common-button-gray" onClick={()=>{this.onAddCancel()}}>{'cancel'}</button>
+                        <button className="tr-common-button-blue" onClick={()=>{this.onAddConfirm()}}>{'Confirm'}</button>
+                        <button className="tr-common-button-gray" onClick={()=>{this.onAddCancel()}}>{'cancel'}</button>
                     </div>
                 </div>
             </BaseModal>

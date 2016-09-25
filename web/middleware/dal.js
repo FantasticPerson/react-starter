@@ -79,27 +79,27 @@ export default ({dispatch,getState})=>next=>action=> {
   }).then(()=> {
     return executeDao(action)
   }).then(
-    (val) => {
-      action.duration = Date.now() - action.timestamp;
-      if (__DEBUG__) {
-        console.log(`DAL: duration: ${action.duration}ms`);
-      }
+      (val) => {
+        action.duration = Date.now() - action.timestamp;
+        if (__DEBUG__) {
+          console.log(`DAL: duration: ${action.duration}ms`);
+        }
 
-      if (action.onEnd) {
-        action.onEnd(val);
+        if (action.onEnd) {
+          action.onEnd(val);
+        }
+        if (action.callback) {
+          action.callback(null, val);
+        }
+      },
+      (err) => {
+        if (action.onEnd) {
+          action.onEnd(err);
+        }
+        if (action.callback) {
+          action.callback(err);
+        }
       }
-      if (action.callback) {
-        action.callback(null, val);
-      }
-    },
-    (err) => {
-      if (action.onEnd) {
-        action.onEnd(err);
-      }
-      if (action.callback) {
-        action.callback(err);
-      }
-    }
   ).catch((err) => {//the final error
     console.error('final err in dal and no process ------------------------------------' + err);
     setTimeout(()=> {
@@ -131,8 +131,8 @@ function executeDao(dao) {
 
 function filterRemoteError(err) {
   if (err.hasOwnProperty('type') &&
-    (err.type === ERROR_TYPES.http_status_unauth ||
-    err.type === ERROR_TYPES.http_status_api_notsupport_error)) {
+      (err.type === ERROR_TYPES.http_status_unauth ||
+      err.type === ERROR_TYPES.http_status_api_notsupport_error)) {
     throw err;
   }
 }
@@ -140,20 +140,19 @@ function filterRemoteError(err) {
 function executeDaoWithAuto(dao) {
   if (navigator.onLine) {
     return resolveProcessFn(dao, 'fromRemote')
-      .then(val => {
-        return resolveProcessFn(dao, 'syncRemoteToLocal', val);
-      })
-      .then(val => {
-        return resolveProcessFn(dao, 'fromLocal', val);
-      }, err => {
-        filterRemoteError(err);
-        return resolveProcessFn(dao, 'fromLocal');
-      })
+        .then(val => {
+          return resolveProcessFn(dao, 'syncRemoteToLocal', val);
+        })
+        .then(val => {
+          return resolveProcessFn(dao, 'fromLocal', val);
+        }, err => {
+          filterRemoteError(err);
+          return resolveProcessFn(dao, 'fromLocal');
+        })
 
   } else {
     return resolveProcessFn(dao, 'fromLocal');
   }
-  ;
 }
 
 function executeDaoWithLocalOnly(dao, val) {
@@ -162,15 +161,15 @@ function executeDaoWithLocalOnly(dao, val) {
 
 function executeDaoRemoteOnly(dao) {
   return resolveProcessFn(dao, 'fromRemote')
-    .then(val => {
-      return resolveProcessFn(dao, 'syncRemoteToLocal', val);
-    })
-    .then(val => {
-      return resolveProcessFn(dao, 'fromLocal', val);
-    }, err => {
-      filterRemoteError(err);
-      return err;
-    })
+      .then(val => {
+        return resolveProcessFn(dao, 'syncRemoteToLocal', val);
+      })
+      .then(val => {
+        return resolveProcessFn(dao, 'fromLocal', val);
+      }, err => {
+        filterRemoteError(err);
+        return err;
+      })
 }
 
 function resolveProcessFn(dao, fnName, val) {

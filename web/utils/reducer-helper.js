@@ -3,7 +3,6 @@
  */
 import {combineReducers} from 'redux';
 import {handleActions} from 'redux-actions';
-
 import isValidName from './isValidName';
 
 export function nestCombineReducers(schema) {
@@ -13,18 +12,14 @@ export function nestCombineReducers(schema) {
 
     for(var key in schema) {
         if(!isValidName(key)) continue;
-
         let val = schema[key];
         let reducer;
-
         if(val.__proto__ === Object.prototype) {//plain Object
             reducer = nestCombineReducers(val);
         } else if(typeof val === 'function') {//default state bind reducer.
             reducer = val;
         }
-
         if(!reducer) continue;
-
         results[key] = reducer;
         keyCount++;
     }
@@ -34,7 +29,6 @@ export function nestCombineReducers(schema) {
         combineReducers(results);
 }
 
-//Reducor == Reduce Creator
 export function handleActionsReducor(defaultState, handleActionsObject) {
     return handleActions(handleActionsObject, defaultState);
 }
