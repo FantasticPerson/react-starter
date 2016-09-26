@@ -48,9 +48,6 @@ class UserList extends Component{
     }
 
     onDeleteCb(data){
-        if(this.selectedItemsData){
-
-        }
         console.log(data);
         this.props.dispatch(getUserList());
     }
@@ -64,14 +61,25 @@ class UserList extends Component{
         this.props.dispatch(removeOverLayByName(overLayNames.USER_ADD_OVER_LAY));
     }
 
-    onCheckedChange(data,checked){
+    onCheckedChange(data){
+        const {list} = this.props;
         let selected = data ? this.selectedItemsData.find(function(item){
             return item.code == data.code;
         }) : null;
-        if(!selected && checked){
-            this.selectedItemsData.push(data);
-        } else if(selected && !checked){
+        if(data && selected) {
             this.selectedItemsData.splice(this.selectedItemsData.indexOf(selected),1);
+        } else if(data && !selected) {
+            this.selectedItemsData.push(data);
+        }
+        for(var j=0;j<list.length;j++){
+            let item = this.refs['userItem'+j];
+            if(item){
+                let data = item.getData();
+                if(data){
+                    let sItem = this.selectedItemsData.find(function(item){return data.code == item.code});
+                    item.setChecked(sItem ? true : false);
+                }
+            }
         }
     }
 
@@ -79,9 +87,33 @@ class UserList extends Component{
         const {view} = this.state;
         if(view === ViewState.view_ready) {
             const {list} = this.props;
+            setTimeout(function(){
+                if(this.selectedItemsData.length > 0){
+                    let arr = [];
+                    for(var i = 0 ; i < this.selectedItemsData.length;i++) {
+                        let item = this.selectedItemsData[i];
+                        let findItem = list.find(function(item2){return item.code == item2.code});
+                        if(findItem){
+                            arr.push(item);
+                        }
+                    }
+                    this.selectedItemsData = arr;
+                }
+                for(var j=0;j<list.length;j++){
+                    let item = this.refs['userItem'+j];
+                    if(item){
+                        let data = item.getData();
+                        if(data){
+                            let sItem = this.selectedItemsData.find(function(item){return data.code == item.code});
+                            item.setChecked(sItem ? true : false);
+                        }
+                    }
+                }
+            }.bind(this),20);
             const userList = list.map((item, index)=> {
-                return <UserItem key={index} data = {item} ref={"userItem"+index} onChange={this.onCheckedChange.bind(this)}/>;
+                return <UserItem key={index} selectedData={this.state.selectedItemsData} data = {item} ref={"userItem"+index} onChange={this.onCheckedChange.bind(this)}/>;
             });
+
             return (
                 <div className="user-list-container" style={{width:'1100px'}}>
                     <div className="user-list-toolbar">

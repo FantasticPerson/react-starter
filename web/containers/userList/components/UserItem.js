@@ -6,6 +6,7 @@ import React,{Component,PropTypes} from 'react';
 export default class UserItem extends Component{
     constructor(){
         super();
+        this.state = {checked:false};
     }
 
     onCheckChange(){
@@ -16,13 +17,24 @@ export default class UserItem extends Component{
         }
     }
 
+    setChecked(bool){
+        const {itemRef} = this.refs;
+        if(itemRef){
+            this.setState({checked:bool});
+        }
+    }
+
+    getData(){
+        return this.props.data;
+    }
+
     render(){
-        const {data,key} = this.props;
+        const {data} = this.props;
         const {name,code,contact,ctel,server,tcphost,tcpport,webhost,webport,filehost,fileport,duedate} = data;
         return (
             <tr>
                 <td style={{textAlign: "center"}}>
-                    <input ref='itemRef' type="checkbox" name="mailbox_list_ids" id="cbf1db0f-647a-421c-a3a4-44b1d2d03ed8" value="cbf1db0f-647a-421c-a3a4-44b1d2d03ed8" onChange={(e)=>{this.onCheckChange()}}/>
+                    <input ref='itemRef' type="checkbox" name="mailbox_list_ids" id="cbf1db0f-647a-421c-a3a4-44b1d2d03ed8" value="cbf1db0f-647a-421c-a3a4-44b1d2d03ed8" checked={this.state.checked} onChange={(e)=>{this.onCheckChange()}}/>
                 </td>
                 <td style={{textAlign: "center"}}>{name}</td>
                 <td style={{textAlign: "center"}}>{code}</td>
