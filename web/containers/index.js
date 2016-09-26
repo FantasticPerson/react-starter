@@ -3,18 +3,17 @@
  */
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
-// import UserAddOverLay from '../containers/userList/components/UserAddOverLay'
 import * as overLayNames from '../constants/OverLayNames';
 
 class App extends Component {
     renderOverLay(){
         const {overLayList} = this.props;
-        return overLayList.map((name,index)=>{
-            let cp = overLayNames.overLayMap[name];
+        return overLayList.map((item,index)=>{
+            let cp = overLayNames.overLayMap[item.name];
             if(cp){
-                return React.createElement(cp,{key:index,dispatch:this.props.dispatch})
+                return React.createElement(cp,{key:index,dispatch:this.props.dispatch,data:item.data})
             } else {
-                console.error('the overLay name ' + name + ' may be not defined');
+                console.error('the overLay name ' + item.name + ' may be not defined');
             }
         });
     }
@@ -29,8 +28,6 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('map state');
-    console.log(state);
     return {
         overLayList : state.view.overLayList,
         list :state.userList.list

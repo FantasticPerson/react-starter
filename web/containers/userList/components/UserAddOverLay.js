@@ -7,6 +7,7 @@ import {removeOverLayByName} from '../../../actions/view'
 import {postNewUser} from '../../../actions/userList'
 import {AddDivAndInputClassNames} from '../constants'
 import * as overLayNames from '../../../constants/OverLayNames'
+import {getUserList} from '../../../actions/userList'
 
 export default class UserAddOverLay extends Component{
     constructor() {
@@ -49,13 +50,20 @@ export default class UserAddOverLay extends Component{
     }
 
     onInputChange(value,target){
+        let isValueValid = value && value.length > 0;
         let realName = target.substring(15);
         this.result[realName] = value;
         let resultArr = this.result['results'];
-        if(resultArr && resultArr.indexOf(realName) < 0){
-            resultArr.push(realName);
-        } else if(!resultArr){
-            resultArr = [realName];
+        if(isValueValid) {
+            if (resultArr && resultArr.indexOf(realName) < 0) {
+                resultArr.push(realName);
+            } else if (!resultArr) {
+                resultArr = [realName];
+            }
+        } else {
+            if(resultArr && resultArr.indexOf(realName) >= 0){
+                resultArr.splice(resultArr.indexOf(realName),1);
+            }
         }
         this.result['results'] = resultArr;
     }
@@ -74,6 +82,8 @@ export default class UserAddOverLay extends Component{
     }
 
     onAddNewUserCb(data){
+        this.props.dispatch(removeOverLayByName(overLayNames.USER_ADD_OVER_LAY));
+        this.props.dispatch(getUserList());
         console.log(data);
     }
 

@@ -8,12 +8,21 @@ export default class UserItem extends Component{
         super();
     }
 
+    onCheckChange(){
+        const {data} = this.props;
+        const {itemRef} = this.refs;
+        if(itemRef) {
+            this.props.onChange(data,itemRef.checked);
+        }
+    }
+
     render(){
-        const {name,code,contact,ctel,server,tcphost,tcpport,webhost,webport,filehost,fileport,duedate} = this.props;
+        const {data,key} = this.props;
+        const {name,code,contact,ctel,server,tcphost,tcpport,webhost,webport,filehost,fileport,duedate} = data;
         return (
             <tr>
                 <td style={{textAlign: "center"}}>
-                    <input type="checkbox" name="mailbox_list_ids" id="cbf1db0f-647a-421c-a3a4-44b1d2d03ed8" value="cbf1db0f-647a-421c-a3a4-44b1d2d03ed8" />
+                    <input ref='itemRef' type="checkbox" name="mailbox_list_ids" id="cbf1db0f-647a-421c-a3a4-44b1d2d03ed8" value="cbf1db0f-647a-421c-a3a4-44b1d2d03ed8" onChange={(e)=>{this.onCheckChange()}}/>
                 </td>
                 <td style={{textAlign: "center"}}>{name}</td>
                 <td style={{textAlign: "center"}}>{code}</td>

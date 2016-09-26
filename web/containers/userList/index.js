@@ -4,7 +4,7 @@
 import React,{Component,PropTypes} from 'react';
 import {connect} from 'react-redux';
 import UserItem from './components/UserItem';
-import {getUserList} from '../../actions/userList';
+import {getUserList,postDeleteUser} from '../../actions/userList';
 import * as ViewState from '../../constants/view';
 import {fetch_post} from '../../utils/mFetch';
 import {showOverLayByName,removeOverLayByName} from '../../actions/view';
@@ -30,15 +30,29 @@ class UserList extends Component{
     }
 
     onModifyClickHandler(){
-        this.props.dispatch(showOverLayByName(overLayNames.USER_MODIFY_OVER_LAY));
+        if(this.selectedItemsData.length > 1 || this.selectedItemsData.length <= 0){
+            alert('请选择一个进行修改');
+        } else {
+            let item = this.selectedItemsData[0];
+            this.props.dispatch(showOverLayByName(overLayNames.USER_MODIFY_OVER_LAY,item))
+        }
     }
 
     onDeleteClickHandler(){
-        console.log('on delete click');
+        if(this.selectedItemsData.length > 1 || this.selectedItemsData.length <= 0){
+            alert('请选择一个进行删除');
+        } else {
+            let item = this.selectedItemsData[0];
+            this.props.dispatch(postDeleteUser('id='+item.id,this.onDeleteCb.bind(this)))
+        }
     }
 
-    onInputChange(e,target){
-        console.log(e,target);
+    onDeleteCb(data){
+        if(this.selectedItemsData){
+
+        }
+        console.log(data);
+        this.props.dispatch(getUserList());
     }
 
     onAddConfirm(){
@@ -49,21 +63,15 @@ class UserList extends Component{
     onAddCancel(){
         this.props.dispatch(removeOverLayByName(overLayNames.USER_ADD_OVER_LAY));
     }
-    onCheckedChange(index){
-        const item = this.refs['userItem'+index];
-        const {list} = this.props;
-        let itemData = list[index];
-        let selected = itemData ? this.selectedItemsData.find(function(item){
-            return item.code == itemData.code;
+
+    onCheckedChange(data,checked){
+        let selected = data ? this.selectedItemsData.find(function(item){
+            return item.code == data.code;
         }) : null;
-        if(item && itemData && item.checked){
-            if(!selected){
-                this.selectedItemsData.push(itemData);
-            }
-        } else if(item && itemData && !item.checked){
-            if(selected){
-                this.selectedItemsData.splice(this.selectedItemsData.indexOf(selected),1);
-            }
+        if(!selected && checked){
+            this.selectedItemsData.push(data);
+        } else if(selected && !checked){
+            this.selectedItemsData.splice(this.selectedItemsData.indexOf(selected),1);
         }
     }
 
@@ -72,10 +80,7 @@ class UserList extends Component{
         if(view === ViewState.view_ready) {
             const {list} = this.props;
             const userList = list.map((item, index)=> {
-                const {name, code, contact, ctel, server, tcphost, tcpport, webhost, webport, filehost, fileport, timeout} = item;
-                return <UserItem key={index} name={name} code={code} contact={contact} ctel={ctel}
-                         server={server} tcphost={tcphost} tcpport={tcpport} webhost={webhost}
-                         webport={webport} filehost={filehost} fileport={fileport} duedate={timeout} ref={"userItem"+index} onChange={()=>{this.onCheckedChange(index)}}/>;
+                return <UserItem key={index} data = {item} ref={"userItem"+index} onChange={this.onCheckedChange.bind(this)}/>;
             });
             return (
                 <div className="user-list-container" style={{width:'1100px'}}>

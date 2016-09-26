@@ -4,6 +4,10 @@
 import React,{Component} from 'react'
 import BaseModal from '../../../components/BaseModal'
 import {ModifyDivAndInputClassNames} from '../constants'
+import {postUpdateUser} from  '../../../actions/userList'
+import {removeOverLayByName} from '../../../actions/view'
+import * as overLayNames from '../../../constants/OverLayNames'
+import {getUserList} from '../../../actions/userList'
 
 export default class UserModifyOverLay extends Component{
     constructor(){
@@ -11,20 +15,61 @@ export default class UserModifyOverLay extends Component{
         this.result = {};
     }
 
-    onInputChange(){
+    onInputChange(value,target){
+        let isValueValid = value && value.length > 0;
+        let realName = target.substring(18);
+        this.result[realName] = value;
+        let resultArr = this.result['results'];
+        if(isValueValid) {
+            if (resultArr && resultArr.indexOf(realName) < 0) {
+                resultArr.push(realName);
+            } else if (!resultArr) {
+                resultArr = [realName];
+            }
+        } else {
+            if(resultArr && resultArr.indexOf(realName) >= 0){
+                resultArr.splice(resultArr.indexOf(realName),1);
+            }
+        }
+        this.result['results'] = resultArr;
+    }
 
+    onModifyConfirm(){
+        if(this.result['results'] && this.result['results'].length == 12){
+            const {data} = this.props;
+            let results = this.result['results'];
+            let data1 = results[0] + '=' + this.result[results[0]];
+            for(var i = 1;i < results.length;i++){
+                data1 = data1 + '&' + results[i] + '=' + this.result[results[i]];
+            }
+            data1 = data1 + '&' + 'id='+data.id;
+            this.props.dispatch(postUpdateUser(data1,this.onModifyConfirmCb.bind(this)));
+        } else {
+            alert('信息没有填写完整');
+        }
+    }
+
+    onModifyConfirmCb(data){
+        this.props.dispatch(removeOverLayByName(overLayNames.USER_MODIFY_OVER_LAY));
+        this.props.dispatch(getUserList());
+        console.log(data);
+    }
+
+    onModifyCancel(){
+        this.props.dispatch(removeOverLayByName(overLayNames.USER_MODIFY_OVER_LAY));
     }
 
     render(){
-        // const {data} = new object({"contact": "杨燕龙", "webport": 10001, "filehost": "61.155.85.77", "code": "0513001", "tcphost": "61.155.85.77", "fileport": 10004, "id": "6f8b7e3d-9040-4a9b-b910-9364a918054e", "ctel": "15151000001", "webhost": "61.155.85.77", "server": "宋卫南", "mac": "56:E8:F6:23:EF", "timeout": "2017-09-12", "tcpport": 10003, "name": "江苏中威科技"});
-        // this.result = data;
-        // console.log(data['name']);
+        const {data} = this.props;
+        this.result = data;
+        this.result.results = [];
         const trs = ModifyDivAndInputClassNames.map((item,index)=>{
+            this.result.results.push(item[1].substring(18));
             return(
                 <tr className="user-modify-input-item" key={index}>
                     <td className='user-modify-input-name-td'>{item[2]}</td>
                     <td className="user-modify-input-text-td">
-                        <input className={item[1] + ' user-add-input-common'} defaultValue={'haha'} onChange={(e)=>{this.onInputChange(e.target.value,item[1])}}/>
+                        <input className={item[1] + ' user-add-input-common'} defaultValue={data[item[1].substring(18)]} onChange={(e)=>{this.onInputChange(e.target.value,item[1])}}/>
                     </td>
                 </tr>
             )
@@ -42,8 +87,8 @@ export default class UserModifyOverLay extends Component{
                         </table>
                     </fieldset>
                     <div className="user-add-btn-container">
-                        <button className="tr-common-button-blue" onClick={()=>{this.onAddConfirm()}}>{'Confirm'}</button>
-                        <button className="tr-common-button-gray" onClick={()=>{this.onAddCancel()}}>{'cancel'}</button>
+                        <button className="tr-common-button-blue" onClick={()=>{this.onModifyConfirm()}}>{'Confirm'}</button>
+                        <button className="tr-common-button-gray" onClick={()=>{this.onModifyCancel()}}>{'cancel'}</button>
                     </div>
                 </div>
             </BaseModal>

@@ -19,7 +19,7 @@ export function getUserList(cb = null){
         },
         onEnd: function(data) {
             if(!actionHelper.isError(data)) {
-                this.dispatch(actionHelper.createPayloadAction(ActionTypes.user_list_update, userList));
+                this.dispatch(actionHelper.createPayloadAction(ActionTypes.user_list_update, data));
             }
         }
     },cb);
@@ -31,4 +31,20 @@ export function postNewUser(data,cb=null){
             return myFetch.fetch_post(AdpterURL.POST_NEW_USER_DATA,data);
         }
     },cb);
+}
+
+export function postUpdateUser(data,cb=null){
+    return createRemoteOnlyDAO({
+        fromRemote:function(){
+            return myFetch.fetch_post(AdpterURL.POST_UPDATE_USER_DATA,data);
+        }
+    },cb)
+}
+
+export function postDeleteUser(id,cb=null){
+    return createRemoteOnlyDAO({
+        fromRemote:function () {
+            return myFetch.fetch_post(AdpterURL.POST_REMOVE_USER,id);
+        }
+    },cb)
 }

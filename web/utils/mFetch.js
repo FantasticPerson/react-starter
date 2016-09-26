@@ -78,7 +78,7 @@ function filterHttpStatusResponse(response,url) {
 
 function filterResponseJson(resJson,url){
     if (resJson.success) {
-        return resJson.data;
+        return resJson.data || resJson.message;
     } else {
         console.error(`${url} Error: resJson.message ${resJson.message}`);
         throw new Error('获取数据失败', resJson.message);
