@@ -11,7 +11,7 @@ export default class LoadingModal extends Component{
 
     render(){
         return (
-            <BaseModal style={{zIndex:1300}}>
+            <BaseModal>
                 <div>loading........</div>
             </BaseModal>
         )
