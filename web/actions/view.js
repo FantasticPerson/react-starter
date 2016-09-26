@@ -1,8 +1,9 @@
 /**
- * Created by wdd on 2016/9/22.
+ * Created by wdd on 2016/9/25.
  */
 import * as actionHelper from '../utils/action-helper'
 import * as ActionTypes from '../constants/ActionTypes'
+import * as ViewNames from '../constants/OverLayNames'
 
 export function showOverLayByName(overLayName,data = null){
     return (dispatch,getState)=>{
@@ -29,4 +30,12 @@ export function removeOverLayByName(overLayName){
         list.splice(list.indexOf(item),1);
         dispatch(actionHelper.createPayloadAction(ActionTypes.update_over_lay_list,list));
     }
+}
+
+export function showLoading(data=null){
+    return showOverLayByName(ViewNames.VIEW_LOADING,data);
+}
+
+export function removeLoading(){
+    return removeOverLayByName(ViewNames.VIEW_LOADING);
 }

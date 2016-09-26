@@ -7,7 +7,7 @@ import UserItem from './components/UserItem';
 import {getUserList,postDeleteUser} from '../../actions/userList';
 import * as ViewState from '../../constants/view';
 import {fetch_post} from '../../utils/mFetch';
-import {showOverLayByName,removeOverLayByName} from '../../actions/view';
+import {showOverLayByName,removeOverLayByName,showLoading,removeLoading} from '../../actions/view';
 import * as overLayNames from '../../constants/OverLayNames'
 
 class UserList extends Component{
@@ -18,6 +18,7 @@ class UserList extends Component{
     }
 
     componentDidMount(){
+        this.props.dispatch(showLoading());
         this.props.dispatch(getUserList(this.getUserListCb.bind(this)));
     }
 
