@@ -3,9 +3,10 @@
  */
 import React,{Component} from 'react'
 import BaseModal from '../../../components/BaseModal'
-import {removeUserAddOverLay} from '../../../actions/view'
-import {fetch_post} from '../../../utils/mFetch'
+import {removeOverLayByName} from '../../../actions/view'
 import {postNewUser} from '../../../actions/userList'
+import {AddDivAndInputClassNames} from '../constants'
+import * as overLayNames from '../../../constants/OverLayNames'
 
 export default class UserAddOverLay extends Component{
     constructor() {
@@ -14,14 +15,7 @@ export default class UserAddOverLay extends Component{
     }
 
     render(){
-        let divAndInputClassNames = [['user-add-name','user-add-input-name','名称:'],['user-add-code','user-add-input-code','客户号:'],
-            ['user-add-contact','user-add-input-contact','客户联系人:'], ['user-add-ctel','user-add-input-ctel','联系方式:'],
-            ['user-add-service','user-add-input-service','服务人员:'], ['user-add-tcphost','user-add-input-tcphost','tcp地址:'],
-            ['user-add-tcpport','user-add-input-tcpport','tcp端口:'],['user-add-webhost','user-add-input-webhost','web地址:'],
-            ['user-add-webport','user-add-input-webport','web端口:'], ['user-add-filehost','user-add-input-filehost','file地址:'],
-            ['user-add-fileport','user-add-input-fileport','file端口:'],['user-add-duedate','user-add-input-timeout','LIC到期时间:']];
-
-        const trs = divAndInputClassNames.map((item,index)=>{
+        const trs = AddDivAndInputClassNames.map((item, index)=>{
             return (
                 <tr className="user-add-input-item" key={index}>
                     <td className='user-add-input-name-td'>{item[2]}</td>
@@ -84,6 +78,6 @@ export default class UserAddOverLay extends Component{
     }
 
     onAddCancel(){
-        this.props.dispatch(removeUserAddOverLay());
+        this.props.dispatch(removeOverLayByName(overLayNames.USER_ADD_OVER_LAY));
     }
 }

@@ -4,7 +4,7 @@
 import 'es6-promise'
 import fetch from 'isomorphic-fetch'
 
-const ADAPTER_URL = 'http://61.155.85.77:10006/';
+const ADAPTER_URL = 'http://127.0.0.1:10006';
 
 export function fetch_post(url,data){
     let url2 = `${ADAPTER_URL}/${url}`;
@@ -32,6 +32,9 @@ export function fetch_post(url,data){
     })
     .then(response => filterHttpStatusResponse(response, url))
     .then(response => filterResponseJson(response.content, url))
+    .then(result=>{
+        return result;
+    })
 }
 
 export function fetch_get(url){

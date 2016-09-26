@@ -7,12 +7,14 @@ import UserItem from './components/UserItem';
 import {getUserList} from '../../actions/userList';
 import * as ViewState from '../../constants/view';
 import {fetch_post} from '../../utils/mFetch';
-import {showUserAddOverLay,removeUserAddOverLay} from '../../actions/view';
+import {showOverLayByName,removeOverLayByName} from '../../actions/view';
+import * as overLayNames from '../../constants/OverLayNames'
 
 class UserList extends Component{
     constructor(){
         super();
-        this.state= {view:ViewState.view_loading,showAdd:false};
+        this.state= {view:ViewState.view_loading};
+        this.selectedItemsData = [];
     }
 
     componentDidMount(){
@@ -24,14 +26,11 @@ class UserList extends Component{
     }
 
     onAddClickHandler(){
-        this.setState({showAdd:true});
-        this.props.dispatch(showUserAddOverLay());
-
-        console.log('on add click');
+        this.props.dispatch(showOverLayByName(overLayNames.USER_ADD_OVER_LAY));
     }
 
     onModifyClickHandler(){
-        console.log('on modify click');
+        this.props.dispatch(showOverLayByName(overLayNames.USER_MODIFY_OVER_LAY));
     }
 
     onDeleteClickHandler(){
@@ -43,14 +42,29 @@ class UserList extends Component{
     }
 
     onAddConfirm(){
-        this.setState({showAdd:false});
-        this.props.dispatch(removeUserAddOverLay());
+        this.props.dispatch(removeOverLayByName(overLayNames.USER_ADD_OVER_LAY));
         fetch_post('customer/add');
     }
 
     onAddCancel(){
-        this.props.dispatch(removeUserAddOverLay());
-        this.setState({showAdd:false})
+        this.props.dispatch(removeOverLayByName(overLayNames.USER_ADD_OVER_LAY));
+    }
+    onCheckedChange(index){
+        const item = this.refs['userItem'+index];
+        const {list} = this.props;
+        let itemData = list[index];
+        let selected = itemData ? this.selectedItemsData.find(function(item){
+            return item.code == itemData.code;
+        }) : null;
+        if(item && itemData && item.checked){
+            if(!selected){
+                this.selectedItemsData.push(itemData);
+            }
+        } else if(item && itemData && !item.checked){
+            if(selected){
+                this.selectedItemsData.splice(this.selectedItemsData.indexOf(selected),1);
+            }
+        }
     }
 
     render(){
@@ -61,7 +75,7 @@ class UserList extends Component{
                 const {name, code, contact, ctel, server, tcphost, tcpport, webhost, webport, filehost, fileport, timeout} = item;
                 return <UserItem key={index} name={name} code={code} contact={contact} ctel={ctel}
                          server={server} tcphost={tcphost} tcpport={tcpport} webhost={webhost}
-                         webport={webport} filehost={filehost} fileport={fileport} duedate={timeout}/>;
+                         webport={webport} filehost={filehost} fileport={fileport} duedate={timeout} ref={"userItem"+index} onChange={()=>{this.onCheckedChange(index)}}/>;
             });
             return (
                 <div className="user-list-container" style={{width:'1100px'}}>

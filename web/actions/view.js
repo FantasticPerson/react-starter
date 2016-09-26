@@ -3,26 +3,25 @@
  */
 import * as actionHelper from '../utils/action-helper'
 import * as ActionTypes from '../constants/ActionTypes'
-import * as overLayNames from '../constants/OverLayNames'
 
-export function showUserAddOverLay(){
+export function showOverLayByName(overLayName){
     return (dispatch,getState)=>{
         let list = getState().view.overLayList.map((name)=> {return name;});
-        if(list.indexOf(overLayNames.USER_ADD_OVER_LAY) >= 0){
+        if(list.indexOf(overLayName) >= 0){
             return;
         }
-        list.push(overLayNames.USER_ADD_OVER_LAY);
+        list.push(overLayName);
         dispatch(actionHelper.createPayloadAction(ActionTypes.update_over_lay_list,list))
     }
 }
 
-export function removeUserAddOverLay(){
+export function removeOverLayByName(overLayName){
     return (dispatch,getState)=>{
         let list = getState().view.overLayList.map((name)=> {return name;});
-        if(list.indexOf(overLayNames.USER_ADD_OVER_LAY) < 0){
+        if(list.indexOf(overLayName) < 0){
             return;
         }
-        list.splice(list.indexOf(overLayNames.USER_ADD_OVER_LAY),1);
+        list.splice(list.indexOf(overLayName),1);
         dispatch(actionHelper.createPayloadAction(ActionTypes.update_over_lay_list,list));
     }
 }
