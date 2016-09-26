@@ -45,7 +45,6 @@ export default class UserItem extends Component{
                 <td style={{textAlign: "center"}}>{webhost+" "+webport}</td>
                 <td style={{textAlign: "center"}}>{filehost+" "+fileport}</td>
                 <td style={{textAlign: "center"}}>{duedate}</td>
-
             </tr>
         )
     }
