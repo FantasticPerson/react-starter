@@ -6,9 +6,10 @@ import {connect} from 'react-redux';
 import UserItem from './components/UserItem';
 import {getUserList,postDeleteUser} from '../../actions/userList';
 import * as ViewState from '../../constants/view';
-import {fetch_post} from '../../utils/mFetch';
 import {showOverLayByName,removeOverLayByName,showLoading,removeLoading} from '../../actions/view';
 import * as overLayNames from '../../constants/OverLayNames'
+import MultiList from '../../components/MultiList'
+import {HeadProperties} from './constants'
 
 class UserList extends Component{
     constructor(){
@@ -98,6 +99,14 @@ class UserList extends Component{
         }
     }
 
+    renderHeader(){
+        return (
+            <div className="user-list-header user-list-head-bg">
+                <div className="user-list-header-logo"></div>
+            </div>
+        )
+    }
+
     render(){
         const {view} = this.state;
         if(view === ViewState.view_ready) {
@@ -130,33 +139,16 @@ class UserList extends Component{
             });
 
             return (
-                <div className="user-list-container" style={{width:'1100px'}}>
-                    <div className="user-list-toolbar">
-                        <div className="user-list-icon-opt user-list-add" onClick={()=>{this.onAddClickHandler()}}></div>
-                        <div className="user-list-icon-opt user-list-modify" onClick={()=>{this.onModifyClickHandler()}}></div>
-                        <div className="user-list-icon-opt user-list-report" onClick={()=>{this.onDeleteClickHandler()}}></div>
+                <div>
+                    {this.renderHeader()}
+                    <div className="user-list-container" style={{width:'1100px'}}>
+                        <div className="user-list-toolbar">
+                            <div className="user-list-icon-opt user-list-add" onClick={()=>{this.onAddClickHandler()}}></div>
+                            <div className="user-list-icon-opt user-list-modify" onClick={()=>{this.onModifyClickHandler()}}></div>
+                            <div className="user-list-icon-opt user-list-report" onClick={()=>{this.onDeleteClickHandler()}}></div>
+                        </div>
+                        <MultiList data={list} element={UserItem} headerProperty={HeadProperties}/>
                     </div>
-                    <table className="table site_tb">
-                        <thead>
-                            <tr >
-                                <th style={{width:"30px"}}>
-                                    <input ref="totalCB" type="checkbox" id="mailbox_list_allCheck" style={{verticalAlign: "middle"}} checked={this.state.checked} onChange={()=>{this.onTotalChange()}}/>
-                                </th>
-                                <th style={{width:"110px"}}>{'名称'}</th>
-                                <th style={{width:"90px"}}>{'客户号'}</th>
-                                <th style={{width:"90px"}}>{'客户联系人'}</th>
-                                <th style={{width:"150px"}}>{'联系方式'}</th>
-                                <th style={{width:"80px"}}>{'服务人员'}</th>
-                                <th style={{width:"150px"}}>{'TCP地址及端口'}</th>
-                                <th style={{width:"150px"}}>{'WEB地址及端口'}</th>
-                                <th style={{width:"150px"}}>{'FILE地址及端口'}</th>
-                                <th style={{width:"100px"}}>{'LIC到期时间'}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {userList}
-                        </tbody>
-                    </table>
                 </div>
             )
         }
