@@ -5,7 +5,7 @@ import React,{Component} from 'react'
 import BaseModal from '../../../components/BaseModal'
 import {ModifyDivAndInputClassNames} from '../constants'
 import {postUpdateUser} from  '../../../actions/userList'
-import {removeOverLayByName} from '../../../actions/view'
+import {removeOverLayByName,showLoading,removeLoading} from '../../../actions/view'
 import * as overLayNames from '../../../constants/OverLayNames'
 import {getUserList} from '../../../actions/userList'
 
@@ -43,6 +43,7 @@ export default class UserModifyOverLay extends Component{
                 data1 = data1 + '&' + results[i] + '=' + this.result[results[i]];
             }
             data1 = data1 + '&' + 'id='+data.id;
+            this.props.dispatch(showLoading('正在修改数据,请稍后...'));
             this.props.dispatch(postUpdateUser(data1,this.onModifyConfirmCb.bind(this)));
         } else {
             alert('信息没有填写完整');
@@ -50,6 +51,7 @@ export default class UserModifyOverLay extends Component{
     }
 
     onModifyConfirmCb(data){
+        this.props.dispatch(removeLoading());
         this.props.dispatch(removeOverLayByName(overLayNames.USER_MODIFY_OVER_LAY));
         this.props.dispatch(getUserList());
         console.log(data);

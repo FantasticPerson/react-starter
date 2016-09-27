@@ -6,10 +6,8 @@ import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 import redux_promise from 'redux-promise';
 import {hashHistory} from 'react-router';
-
 import {routerMiddleware} from 'react-router-redux'
 import createLogger from 'redux-logger';
-
 import rootReducer from '../reducers';
 import dal from '../middleware/dal'
 

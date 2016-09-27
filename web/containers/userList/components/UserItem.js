@@ -30,7 +30,7 @@ export default class UserItem extends Component{
 
     render(){
         const {data} = this.props;
-        const {name,code,contact,ctel,server,tcphost,tcpport,webhost,webport,filehost,fileport,duedate} = data;
+        const {name,code,contact,ctel,server,tcphost,tcpport,webhost,webport,filehost,fileport,timeout} = data;
         return (
             <tr>
                 <td style={{textAlign: "center"}}>
@@ -44,7 +44,7 @@ export default class UserItem extends Component{
                 <td style={{textAlign: "center"}}>{tcphost+" "+tcpport}</td>
                 <td style={{textAlign: "center"}}>{webhost+" "+webport}</td>
                 <td style={{textAlign: "center"}}>{filehost+" "+fileport}</td>
-                <td style={{textAlign: "center"}}>{duedate}</td>
+                <td style={{textAlign: "center"}}>{timeout}</td>
             </tr>
         )
     }

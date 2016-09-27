@@ -3,7 +3,7 @@
  */
 import React,{Component} from 'react'
 import BaseModal from '../../../components/BaseModal'
-import {removeOverLayByName} from '../../../actions/view'
+import {removeOverLayByName,showLoading,removeLoading} from '../../../actions/view'
 import {postNewUser} from '../../../actions/userList'
 import {AddDivAndInputClassNames} from '../constants'
 import * as overLayNames from '../../../constants/OverLayNames'
@@ -75,6 +75,7 @@ export default class UserAddOverLay extends Component{
             for(var i = 1;i < results.length;i++){
                 data = data + '&' + results[i] + '=' + this.result[results[i]];
             }
+            this.props.dispatch(showLoading('正在添加数据,请稍后...'));
             this.props.dispatch(postNewUser(data,this.onAddNewUserCb.bind(this)));
         } else {
             alert('信息没有填写完整');
@@ -82,6 +83,7 @@ export default class UserAddOverLay extends Component{
     }
 
     onAddNewUserCb(data){
+        this.props.dispatch(removeLoading());
         this.props.dispatch(removeOverLayByName(overLayNames.USER_ADD_OVER_LAY));
         this.props.dispatch(getUserList());
         console.log(data);

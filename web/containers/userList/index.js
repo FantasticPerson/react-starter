@@ -13,16 +13,17 @@ import * as overLayNames from '../../constants/OverLayNames'
 class UserList extends Component{
     constructor(){
         super();
-        this.state= {view:ViewState.view_loading};
+        this.state= {view:ViewState.view_loading,checked:false};
         this.selectedItemsData = [];
     }
 
     componentDidMount(){
-        this.props.dispatch(showLoading());
+        this.props.dispatch(showLoading('正在获取数据,请稍后...'));
         this.props.dispatch(getUserList(this.getUserListCb.bind(this)));
     }
 
     getUserListCb(data){
+        this.props.dispatch(removeLoading());
         this.setState({view:ViewState.view_ready})
     }
 
@@ -40,6 +41,7 @@ class UserList extends Component{
     }
 
     onDeleteClickHandler(){
+        this.props.dispatch(showLoading('正在删除数据,请稍后...'));
         if(this.selectedItemsData.length > 1 || this.selectedItemsData.length <= 0){
             alert('请选择一个进行删除');
         } else {
@@ -49,17 +51,9 @@ class UserList extends Component{
     }
 
     onDeleteCb(data){
+        this.props.dispatch(removeLoading());
         console.log(data);
         this.props.dispatch(getUserList());
-    }
-
-    onAddConfirm(){
-        this.props.dispatch(removeOverLayByName(overLayNames.USER_ADD_OVER_LAY));
-        fetch_post('customer/add');
-    }
-
-    onAddCancel(){
-        this.props.dispatch(removeOverLayByName(overLayNames.USER_ADD_OVER_LAY));
     }
 
     onCheckedChange(data){
@@ -80,6 +74,26 @@ class UserList extends Component{
                     let sItem = this.selectedItemsData.find(function(item){return data.code == item.code});
                     item.setChecked(sItem ? true : false);
                 }
+            }
+        }
+        let isChecked = this.selectedItemsData.length == list.length;
+        this.setState({checked:isChecked});
+    }
+
+    onTotalChange(){
+        const {list} = this.props;
+        const {totalCB} = this.refs;
+        let checked = totalCB.checked;
+        this.setState({checked:checked});
+        if(totalCB.checked){
+            this.selectedItemsData = list;
+        } else {
+            this.selectedItemsData = [];
+        }
+        for(var j=0;j<list.length;j++) {
+            let item = this.refs['userItem' + j];
+            if (item) {
+                item.setChecked(checked);
             }
         }
     }
@@ -126,7 +140,7 @@ class UserList extends Component{
                         <thead>
                             <tr >
                                 <th style={{width:"30px"}}>
-                                    <input type="checkbox" id="mailbox_list_allCheck" style={{verticalAlign: "middle"}} />
+                                    <input ref="totalCB" type="checkbox" id="mailbox_list_allCheck" style={{verticalAlign: "middle"}} checked={this.state.checked} onChange={()=>{this.onTotalChange()}}/>
                                 </th>
                                 <th style={{width:"110px"}}>{'名称'}</th>
                                 <th style={{width:"90px"}}>{'客户号'}</th>
@@ -146,9 +160,7 @@ class UserList extends Component{
                 </div>
             )
         }
-        return (
-            <div>loading</div>
-        )
+        return (<div></div>)
     }
 }
 

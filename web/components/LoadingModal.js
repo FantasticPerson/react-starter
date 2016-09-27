@@ -10,9 +10,11 @@ export default class LoadingModal extends Component{
     }
 
     render(){
+        const {data} = this.props;
+        let msg = data || '加载数据中,请稍等...';
         return (
-            <BaseModal>
-                <div>loading........</div>
+            <BaseModal bgClassName="tr-loading-modal-background">
+                <div className="tr-loading-progressBar">{msg}</div>
             </BaseModal>
         )
     }
