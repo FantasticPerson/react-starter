@@ -53,7 +53,7 @@ function entryConfig(options) {
         DEV_CONST.SRC_WEB_MAIN_FILE
     ];
 
-    if (options.devServer) {
+    if (DEV_CONST.APP_DEBUG) {
         let devServerConfig = [
             `webpack-dev-server/client?http://127.0.0.1:${DEV_CONST.DEV_PORT}`,
             `webpack/hot/only-dev-server`
@@ -122,37 +122,20 @@ function htmlWebpackPluginConfig(options) {
     };
 }
 
-function externalsConfig(options) {
-    return [
-        (function () {
-            var IGNORES = [
-                'electron'
-            ];
-            return function (context, request, callback) {
-                if (IGNORES.indexOf(request) >= 0) {
-                    return callback(null, "require('" + request + "')");
-                }
-                return callback();
-            };
-        })()
-    ]
-}
-
 //--------------------------------------
 export function webpackConfig(options) {
     options = options || {};
     return {
         context: DEV_CONST.SRC_DIR,
         bail: true,
-        debug: true,
+        debug: DEV_CONST.APP_DEBUG,
         cache: true,
         entry: entryConfig(options),
         output: outputConfig(options),
         resolve: resolveConfig(options),
-        devtool: 'inline-source-map',
+        devtool: DEV_CONST.APP_DEBUG ? 'inline-source-map' : false,
         target: 'web', //default
         node: nodeConfig(options),
-        externals: externalsConfig(options),
         module: {
             loaders: [
                 {
@@ -192,11 +175,18 @@ export function webpackConfig(options) {
             new webpack.optimize.DedupePlugin(),
 
             DEV_CONST.APP_DEBUG ? null : new webpack.optimize.UglifyJsPlugin({
-                warnings: false,
-                dead_code: true
+                compress:{
+                    warnings: false,
+                    dead_code: true,
+                },
+                output:{
+                    comments:false
+                }
             }),
             new DefinePlugin({
-                    __DEBUG__: DEV_CONST.APP_DEBUG
+                    'process.env': {
+                        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+                    }
                 }
             ),
             new webpack.optimize.OccurenceOrderPlugin(),

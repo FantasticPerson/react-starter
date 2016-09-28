@@ -1,6 +1,6 @@
 let path = require('path');
 
-export const APP_DEBUG = true;
+export const APP_DEBUG = true;//切换debug环境和产品环境
 
 export const DEV_PORT = 3999;
 export const EMBED_FILE_MAX_SIZE = 10000;
