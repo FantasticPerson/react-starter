@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import UserItem from './components/UserItem';
 import {getUserList,postDeleteUser} from '../../actions/userList';
 import * as ViewState from '../../constants/view';
-import {showOverLayByName,removeOverLayByName,showLoading,removeLoading} from '../../actions/view';
+import {showOverLayByName,showLoading,removeLoading} from '../../actions/view';
 import * as overLayNames from '../../constants/OverLayNames'
 import MultiList from '../../components/MultiList'
 import {HeadProperties} from './constants'
@@ -34,20 +34,24 @@ class UserList extends Component{
     }
 
     onModifyClickHandler(){
-        if(this.selectedItemsData.length > 1 || this.selectedItemsData.length <= 0){
+        const {multiList} = this.refs;
+        let selectedItemsData = multiList.getSelectedItems();
+        if(selectedItemsData.length > 1 || selectedItemsData.length <= 0){
             alert('请选择一个进行修改');
         } else {
-            let item = this.selectedItemsData[0];
+            let item = selectedItemsData[0];
             this.props.dispatch(showOverLayByName(overLayNames.USER_MODIFY_OVER_LAY,item))
         }
     }
 
     onDeleteClickHandler(){
-        this.props.dispatch(showLoading('正在删除数据,请稍后...'));
-        if(this.selectedItemsData.length > 1 || this.selectedItemsData.length <= 0){
+        const {multiList} = this.refs;
+        let selectedItemsData = multiList.getSelectedItems();
+        if(selectedItemsData.length > 1 || selectedItemsData.length <= 0){
             alert('请选择一个进行删除');
         } else {
-            let item = this.selectedItemsData[0];
+            this.props.dispatch(showLoading('正在删除数据,请稍后...'));
+            let item = selectedItemsData[0];
             this.props.dispatch(postDeleteUser('id='+item.id,this.onDeleteCb.bind(this)))
         }
     }
@@ -58,117 +62,30 @@ class UserList extends Component{
         this.props.dispatch(getUserList());
     }
 
-    onCheckedChange(data){
-        const {list} = this.props;
-        let selected = data ? this.selectedItemsData.find(function(item){
-            return item.code == data.code;
-        }) : null;
-        if(data && selected) {
-            this.selectedItemsData.splice(this.selectedItemsData.indexOf(selected),1);
-        } else if(data && !selected) {
-            this.selectedItemsData.push(data);
-        }
-        for(var j=0;j<list.length;j++){
-            let item = this.refs['userItem'+j];
-            if(item){
-                let data = item.getData();
-                if(data){
-                    let sItem = this.selectedItemsData.find(function(item){return data.code == item.code});
-                    item.setChecked(sItem ? true : false);
-                }
-            }
-        }
-        let isChecked = this.selectedItemsData.length == list.length;
-        this.setState({checked:isChecked});
-    }
-
-    onTotalChange(){
-        const {list} = this.props;
-        const {totalCB} = this.refs;
-        let checked = totalCB.checked;
-        this.setState({checked:checked});
-        if(totalCB.checked){
-            this.selectedItemsData = list;
-        } else {
-            this.selectedItemsData = [];
-        }
-        for(var j=0;j<list.length;j++) {
-            let item = this.refs['userItem' + j];
-            if (item) {
-                item.setChecked(checked);
-            }
-        }
-    }
-
-    renderHeader(){
-        return (
-            <div className="user-list-header user-list-head-bg">
-                <div className="user-list-header-logo"></div>
-            </div>
-        )
-    }
-
-    renderSlideMenu() {
-        let classNames = ['slide-menu-guide-list'];
-        return (
-            <SlideMenu classNames={classNames}/>
-        )
-    }
-
-    renderFooter(){
-        return(
-            <div className="user-list-footer">
-                {'版权所有：江苏中威科技软件系统有限公司   地址：江苏省南通市工农路5号亚太大厦北楼3层  电话：0513-81550880  网址：www.trueway.com.cn'}
-            </div>
-        )
-    }
-
     render(){
         const {view} = this.state;
         if(view === ViewState.view_ready) {
             const {list} = this.props;
-            setTimeout(function(){
-                if(this.selectedItemsData.length > 0){
-                    let arr = [];
-                    for(var i = 0 ; i < this.selectedItemsData.length;i++) {
-                        let item = this.selectedItemsData[i];
-                        let findItem = list.find(function(item2){return item.code == item2.code});
-                        if(findItem){
-                            arr.push(item);
-                        }
-                    }
-                    this.selectedItemsData = arr;
-                }
-                for(var j=0;j<list.length;j++){
-                    let item = this.refs['userItem'+j];
-                    if(item){
-                        let data = item.getData();
-                        if(data){
-                            let sItem = this.selectedItemsData.find(function(item){return data.code == item.code});
-                            item.setChecked(sItem ? true : false);
-                        }
-                    }
-                }
-            }.bind(this),20);
-            const userList = list.map((item, index)=> {
-                return <UserItem key={index} selectedData={this.state.selectedItemsData} data = {item} ref={"userItem"+index} onChange={this.onCheckedChange.bind(this)}/>;
-            });
-
+            let classNames = ['slide-menu-guide-list'];
             return (
                 <div>
-                    {this.renderHeader()}
+                    <div className="user-list-header user-list-head-bg">
+                        <div className="user-list-header-logo"></div>
+                    </div>
                     <div className="user-list-content-container">
-                        {this.renderSlideMenu()}
+                        <SlideMenu classNames={classNames}/>
                         <div className="user-list-container" style={{width:'900px'}}>
                             <div className="user-list-toolbar">
                                 <div className="user-list-icon-opt user-list-add" onClick={()=>{this.onAddClickHandler()}}></div>
                                 <div className="user-list-icon-opt user-list-modify" onClick={()=>{this.onModifyClickHandler()}}></div>
                                 <div className="user-list-icon-opt user-list-report" onClick={()=>{this.onDeleteClickHandler()}}></div>
                             </div>
-                            <MultiList width='900px' data={list} element={UserItem} headerProperty={HeadProperties}/>
+                            <MultiList width='900px' ref='multiList' data={list} element={UserItem} headerProperty={HeadProperties}/>
                         </div>
                     </div>
-                    {this.renderFooter()}
+                    <div className="user-list-footer">
+                        {'版权所有：江苏中威科技软件系统有限公司   地址：江苏省南通市工农路5号亚太大厦北楼3层  电话：0513-81550880  网址：www.trueway.com.cn'}
+                    </div>
                 </div>
             )
         }

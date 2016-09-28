@@ -15,7 +15,6 @@ export default class SlideMenu extends Component{
     handleResize(){
         let height = window.innerHeight;
         this.setState({height:height-190});
-        console.log(height);
     }
 
     componentDidMount(){

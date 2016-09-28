@@ -11,10 +11,6 @@ export default class MultiList extends Component{
         this.selectedItemsData = [];
     }
 
-    // getInitialState(){
-    //     return {windowWidth: window.innerWidth};
-    // }
-
     handleResize(){
         let height = window.innerHeight;
         this.setState({height:height-190});
@@ -48,7 +44,14 @@ export default class MultiList extends Component{
     }
 
     onTabClick(i){
+        let index = this.state.cIndex;
+        if(i == index){
+            return;
+        }
         this.setState({cIndex:i});
+        this.selectedItemsData = [];
+        this.setSelect();
+
     }
 
     getSelectedItems(){
@@ -58,33 +61,25 @@ export default class MultiList extends Component{
     onPreClick(){
         let index = this.state.cIndex - 1;
         if(index >= 0){
-            this.setState({cIndex:index})
+            this.setState({cIndex:index});
+            this.selectedItemsData = [];
+            this.setSelect();
         }
     }
 
     onNextClick(){
         let index = this.state.cIndex + 1;
         const {data} = this.props;
-        let length = Math.ceil(data/20);
+        let length = Math.ceil(data.length/20);
         if(index <= length-1){
-            this.setState({cIndex:index})
+            this.setState({cIndex:index});
+            this.selectedItemsData = [];
+            this.setSelect();
         }
     }
 
-    onChange(){
-
-    }
-
-    onItemChange(data){
+    setSelect(){
         let list = this.getCurrentList();
-        let selected = data ? this.selectedItemsData.find(function(item){
-            return item.code == data.code;
-        }) : null;
-        if(data && selected) {
-            this.selectedItemsData.splice(this.selectedItemsData.indexOf(selected),1);
-        } else if(data && !selected) {
-            this.selectedItemsData.push(data);
-        }
         for(var j=0;j<list.length;j++){
             let item = this.refs['item'+j];
             if(item){
@@ -95,8 +90,20 @@ export default class MultiList extends Component{
                 }
             }
         }
-        let isChecked = this.selectedItemsData.length == list.length;
+        let isChecked = list.length > 0 && (this.selectedItemsData.length == list.length);
         this.setState({checked:isChecked});
+    }
+
+    onItemChange(data){
+        let selected = data ? this.selectedItemsData.find(function(item){
+            return item.code == data.code;
+        }) : null;
+        if(data && selected) {
+            this.selectedItemsData.splice(this.selectedItemsData.indexOf(selected),1);
+        } else if(data && !selected) {
+            this.selectedItemsData.push(data);
+        }
+        this.setSelect();
     }
 
     renderFooter(){
@@ -110,7 +117,7 @@ export default class MultiList extends Component{
             let isCurrent = (i == this.state.cIndex);
             let className = "tr-multi-list-tab" + (isCurrent ? " tr-multi-list-curt-tab" : "");
             tabs.push(
-                <div className={className} onClick={()=>{this.onTabClick(i)}}>{i}</div>
+                <div key={i} className={className} onClick={()=>{this.onTabClick(i)}}>{i}</div>
             )
         }
         return (
@@ -158,6 +165,21 @@ export default class MultiList extends Component{
         );
     }
     render(){
+        setTimeout(function(){
+            let list = this.getCurrentList();
+            if(this.selectedItemsData.length > 0){
+                let arr = [];
+                for(var i = 0 ; i < this.selectedItemsData.length;i++) {
+                    let item = this.selectedItemsData[i];
+                    let findItem = list.find(function(item2){return item.code == item2.code});
+                    if(findItem){
+                        arr.push(item);
+                    }
+                }
+                this.selectedItemsData = arr;
+            }
+            this.setSelect();
+        }.bind(this),20);
         const {width} = this.props;
         let tWidth = width || '100%';
         return(
