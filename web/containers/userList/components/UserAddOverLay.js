@@ -86,7 +86,6 @@ export default class UserAddOverLay extends Component{
         this.props.dispatch(removeLoading());
         this.props.dispatch(removeOverLayByName(overLayNames.USER_ADD_OVER_LAY));
         this.props.dispatch(getUserList());
-        console.log(data);
     }
 
     onAddCancel(){

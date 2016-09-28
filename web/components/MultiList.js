@@ -14,7 +14,6 @@ export default class MultiList extends Component{
     handleResize(){
         let height = window.innerHeight;
         this.setState({height:height-190});
-        console.log(height);
     }
 
     componentDidMount() {
@@ -133,6 +132,7 @@ export default class MultiList extends Component{
     getCurrentList(){
         const {data} = this.props;
         const {cIndex} = this.state;
+        // let length = Math.ceil(data.length/20);
         return data.slice(cIndex*20,(cIndex+1)*20);
     }
 
@@ -166,6 +166,12 @@ export default class MultiList extends Component{
     }
     render(){
         setTimeout(function(){
+            const {data} = this.props;
+            let length = Math.ceil(data.length/20);
+            let cIndex = this.state.cIndex;
+            if(cIndex+1 > length){
+                this.setState({cIndex:cIndex-1});
+            }
             let list = this.getCurrentList();
             if(this.selectedItemsData.length > 0){
                 let arr = [];

@@ -54,7 +54,6 @@ export default class UserModifyOverLay extends Component{
         this.props.dispatch(removeLoading());
         this.props.dispatch(removeOverLayByName(overLayNames.USER_MODIFY_OVER_LAY));
         this.props.dispatch(getUserList());
-        console.log(data);
     }
 
     onModifyCancel(){
@@ -63,9 +62,9 @@ export default class UserModifyOverLay extends Component{
 
     render(){
         const {data} = this.props;
-        let dataOwnProperties = Object.getOwnPropertyNames(data);
-        dataOwnProperties.map((propName)=>{
-            this.result[propName] = data[data];
+        var  propertyNames = Object.getOwnPropertyNames(data);
+        propertyNames.map((propName)=>{
+            this.result[propName] = data[propName];
         });
         this.result.results = [];
         const trs = ModifyDivAndInputClassNames.map((item,index)=>{

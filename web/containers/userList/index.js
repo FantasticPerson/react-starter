@@ -58,7 +58,6 @@ class UserList extends Component{
 
     onDeleteCb(data){
         this.props.dispatch(removeLoading());
-        console.log(data);
         this.props.dispatch(getUserList());
     }
 
