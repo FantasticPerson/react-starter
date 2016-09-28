@@ -35,3 +35,36 @@
   width: 490px;
   height: 94px;
 }
+
+.slide-menu-guide-list{
+  width: 83px;
+  height: 83px;
+  background: url(./icon/iconSprite.png) 0 0 no-repeat;
+  display: block;
+  margin-top: 8px;
+}
+
+.up-arrow {
+  display: block;
+  width: 96px;
+  height: 30px;
+  background: url(./icon/arrow.jpg) 0 0 no-repeat;
+  cursor pointer
+}
+
+.down-arrow{
+  @extend .up-arrow
+  transform: rotate(180deg);
+}
+
+.up-arrow:hover{
+  display: block;
+  width: 96px;
+  height: 30px;
+  background: url(./icon/arrow.jpg) -96px 0 no-repeat;
+}
+
+.down-arrow:hover{
+  @extend .up-arrow:hover
+  transform: rotate(180deg);
+}

@@ -10,6 +10,7 @@ import {showOverLayByName,removeOverLayByName,showLoading,removeLoading} from '.
 import * as overLayNames from '../../constants/OverLayNames'
 import MultiList from '../../components/MultiList'
 import {HeadProperties} from './constants'
+import SlideMenu from '../../components/SlideMenu'
 
 class UserList extends Component{
     constructor(){
@@ -107,6 +108,21 @@ class UserList extends Component{
         )
     }
 
+    renderSlideMenu() {
+        let classNames = ['slide-menu-guide-list'];
+        return (
+            <SlideMenu classNames={classNames}/>
+        )
+    }
+
+    renderFooter(){
+        return(
+            <div className="user-list-footer">
+                {'版权所有：江苏中威科技软件系统有限公司   地址：江苏省南通市工农路5号亚太大厦北楼3层  电话：0513-81550880  网址：www.trueway.com.cn'}
+            </div>
+        )
+    }
+
     render(){
         const {view} = this.state;
         if(view === ViewState.view_ready) {
@@ -141,14 +157,18 @@ class UserList extends Component{
             return (
                 <div>
                     {this.renderHeader()}
-                    <div className="user-list-container" style={{width:'1100px'}}>
-                        <div className="user-list-toolbar">
-                            <div className="user-list-icon-opt user-list-add" onClick={()=>{this.onAddClickHandler()}}></div>
-                            <div className="user-list-icon-opt user-list-modify" onClick={()=>{this.onModifyClickHandler()}}></div>
-                            <div className="user-list-icon-opt user-list-report" onClick={()=>{this.onDeleteClickHandler()}}></div>
+                    <div className="user-list-content-container">
+                        {this.renderSlideMenu()}
+                        <div className="user-list-container" style={{width:'900px'}}>
+                            <div className="user-list-toolbar">
+                                <div className="user-list-icon-opt user-list-add" onClick={()=>{this.onAddClickHandler()}}></div>
+                                <div className="user-list-icon-opt user-list-modify" onClick={()=>{this.onModifyClickHandler()}}></div>
+                                <div className="user-list-icon-opt user-list-report" onClick={()=>{this.onDeleteClickHandler()}}></div>
+                            </div>
+                            <MultiList width='900px' data={list} element={UserItem} headerProperty={HeadProperties}/>
                         </div>
-                        <MultiList data={list} element={UserItem} headerProperty={HeadProperties}/>
                     </div>
+                    {this.renderFooter()}
                 </div>
             )
         }

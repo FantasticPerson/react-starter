@@ -7,7 +7,7 @@ export default class MultiList extends Component{
     constructor(){
         super();
         let height = window.innerHeight;
-        this.state = {cIndex:0,checked:false,height:height-170};
+        this.state = {cIndex:0,checked:false,height:height-190};
         this.selectedItemsData = [];
     }
 
@@ -17,7 +17,7 @@ export default class MultiList extends Component{
 
     handleResize(){
         let height = window.innerHeight;
-        this.setState({height:height-170});
+        this.setState({height:height-190});
         console.log(height);
     }
 
@@ -158,8 +158,10 @@ export default class MultiList extends Component{
         );
     }
     render(){
+        const {width} = this.props;
+        let tWidth = width || '100%';
         return(
-            <div>
+            <div style={{width:tWidth}}>
                 <div className="tr-multi-list-scroll-container" style={{height:this.state.height+'px'}}>
                     {this.renderContent()}
                 </div>

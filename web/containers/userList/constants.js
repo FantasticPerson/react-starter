@@ -36,14 +36,14 @@ export const HeadProperties = [
         {id:'mailbox_list_allCheck',verticalAlign: "middle"}
     ],
     [
-        ['名称',{width:"110px"}],
-        ['客户号',{width:"90px"}],
-        ['客户联系人',{width:"90px"}],
-        ['联系方式',{width:"150px"}],
-        ['服务人员',{width:"80px"}],
-        ['TCP地址及端口',{width:"150px"}],
-        ['WEB地址及端口',{width:"150px"}],
-        ['FILE地址及端口',{width:"150px"}],
-        ['LIC到期时间',{width:"100px"}]
+        ['名称',{width:"90px"}],
+        ['客户号',{width:"70px"}],
+        ['客户联系人',{width:"70px"}],
+        ['联系方式',{width:"130px"}],
+        ['服务人员',{width:"60px"}],
+        ['TCP地址及端口',{width:"130px"}],
+        ['WEB地址及端口',{width:"130px"}],
+        ['FILE地址及端口',{width:"130px"}],
+        ['LIC到期时间',{width:"90px"}]
     ]
 ];
