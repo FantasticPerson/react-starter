@@ -63,15 +63,19 @@ export default class UserModifyOverLay extends Component{
 
     render(){
         const {data} = this.props;
-        this.result = data;
+        let dataOwnProperties = Object.getOwnPropertyNames(data);
+        dataOwnProperties.map((propName)=>{
+            this.result[propName] = data[data];
+        });
         this.result.results = [];
         const trs = ModifyDivAndInputClassNames.map((item,index)=>{
             this.result.results.push(item[1].substring(18));
+            let defaultValue = data[item[1].substring(18)];
             return(
                 <tr className="user-modify-input-item" key={index}>
                     <td className='user-modify-input-name-td'>{item[2]}</td>
                     <td className="user-modify-input-text-td">
-                        <input className={item[1] + ' user-add-input-common'} defaultValue={data[item[1].substring(18)]} onChange={(e)=>{this.onInputChange(e.target.value,item[1])}}/>
+                        <input className={item[1] + ' user-add-input-common'} defaultValue={defaultValue} onChange={(e)=>{this.onInputChange(e.target.value,item[1])}}/>
                     </td>
                 </tr>
             )

@@ -78,7 +78,7 @@ class UserList extends Component{
                             <div className="user-list-toolbar">
                                 <div className="user-list-icon-opt user-list-add" onClick={()=>{this.onAddClickHandler()}}></div>
                                 <div className="user-list-icon-opt user-list-modify" onClick={()=>{this.onModifyClickHandler()}}></div>
-                                <div className="user-list-icon-opt user-list-report" onClick={()=>{this.onDeleteClickHandler()}}></div>
+                                <div className="user-list-icon-opt user-list-del" onClick={()=>{this.onDeleteClickHandler()}}></div>
                             </div>
                             <MultiList width='900px' ref='multiList' data={list} element={UserItem} headerProperty={HeadProperties}/>
                         </div>
