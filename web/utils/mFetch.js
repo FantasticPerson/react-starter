@@ -6,6 +6,17 @@ import fetch from 'isomorphic-fetch'
 
 const ADAPTER_URL = 'http://127.0.0.1:10006';
 
+export function fetch_get_with_params(url,params){
+    let url2 = url;
+    if(params.length > 0){
+        url2 = url2 + '?'+params[0]['key']+'='+params[0]['value'];
+        for(var i=1;i<params.length;i++){
+            url2  = url2 + '&' + params[i]['key']+'='+params[i]['value'];
+        }
+    }
+    return this.fetch_get(url2);
+}
+
 export function fetch_post(url,data){
     let url2 = `${ADAPTER_URL}/${url}`;
     return fetch(url2,{

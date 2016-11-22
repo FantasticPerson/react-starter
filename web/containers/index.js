@@ -11,7 +11,7 @@ class App extends Component {
         return overLayList.map((item,index)=>{
             let cp = overLayNames.overLayMap[item.name];
             if(cp){
-                return React.createElement(cp,{key:index,dispatch:this.props.dispatch,data:item.data})
+                return React.createElement(cp,{key:index,data:item.data,...this.props})
             } else {
                 console.error('the overLay name ' + item.name + ' may be not defined');
             }
@@ -29,8 +29,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
     return {
-        overLayList : state.view.overLayList,
-        list :state.userList.list
+        overLayList : state.view.overLayList
     }
 }
 

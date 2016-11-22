@@ -2,7 +2,7 @@
  * Created by dandan.wu on 16/9/13.
  */
 import indexApp from '../containers/index'
-import User from './userList'
+import demoPage from './demoPage'
 
 const index = {
     path:'/',
@@ -11,7 +11,7 @@ const index = {
         cb();
     },
     childRoutes:[
-        User
+        demoPage
     ]
 };
 

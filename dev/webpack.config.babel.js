@@ -142,7 +142,7 @@ export function webpackConfig(options) {
                     test: /\.js[x]?$/,
                     include: DEV_CONST.SRC_DIR,
                     exclude: DEV_CONST.NODE_MODULES_DIR,
-                    loaders: DEV_CONST.APP_DEBUG ?  ['babel'] : ['babel']
+                    loaders: DEV_CONST.APP_DEBUG ? ['react-hot-loader/webpack','babel'] : ['babel']
                 },
                 {
                     test: /\.css$/,
@@ -153,7 +153,7 @@ export function webpackConfig(options) {
                     loader: ExtractTextPlugin.extract(['css', 'stylus'])
                 },
                 {test: /\.html$/, loader: "html"},
-                {test: /\.jade$/, loader: "jade?pretty=true"},
+                {test: /\.pug/, loader: "pug?pretty=true"},
                 {
                     test: /\.(png|jpe?g|gif)$/,
                     loader: `url?name=imgs/[name]-[[hash]].[ext]&limit=${DEV_CONST.EMBED_FILE_MAX_SIZE}`

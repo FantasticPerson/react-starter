@@ -3,13 +3,13 @@
  */
 import {routerReducer} from 'react-router-redux'
 import {nestCombineReducers, handleActionsReducor} from '../utils/reducer-helper';
-import * as userList from './userList'
+import * as demoPage from './demoPage'
 import * as view from './view'
 
 export const rootReducer = nestCombineReducers({
     routing:routerReducer,
-    userList: {
-        list: handleActionsReducor([], userList.list)
+    demoPage: {
+        title: handleActionsReducor('origin title', demoPage.title)
     },
     view:{
         overLayList:handleActionsReducor([],view.overLayList)

@@ -36,14 +36,27 @@ export const HeadProperties = [
         {id:'mailbox_list_allCheck',verticalAlign: "middle"}
     ],
     [
-        ['名称',{width:"90px"}],
-        ['客户号',{width:"70px"}],
-        ['客户联系人',{width:"70px"}],
-        ['联系方式',{width:"130px"}],
-        ['服务人员',{width:"60px"}],
-        ['TCP地址及端口',{width:"130px"}],
-        ['WEB地址及端口',{width:"130px"}],
-        ['FILE地址及端口',{width:"130px"}],
-        ['LIC到期时间',{width:"90px"}]
+        ['名称',{width:"90px",color:"#36a6de"}],
+        ['客户号',{width:"70px",color:"#36a6de"}],
+        ['客户联系人',{width:"70px",color:"#36a6de"}],
+        ['联系方式',{width:"130px",color:"#36a6de"}],
+        ['服务人员',{width:"60px",color:"#36a6de"}],
+        ['TCP地址及端口',{width:"130px",color:"#36a6de"}],
+        ['WEB地址及端口',{width:"130px",color:"#36a6de"}],
+        ['FILE地址及端口',{width:"130px",color:"#36a6de"}],
+        ['LIC到期时间',{width:"90px",color:"#36a6de"}],
+        ['',{width:"70px",color:"#36a6de"}]
     ]
+];
+
+export const DetailHeadPropertise = [
+    ['姓名',{width:"90px",color:"#36a6de"}],
+    ['电话',{width:"70px",color:"#36a6de"}],
+    ['部门',{width:"70px",color:"#36a6de"}],
+    ['在线时间',{width:"100px",color:"#36a6de"}],
+    ['WEB 登录次数',{width:"80px",color:"#36a6de"}],
+    ['PC 登录次数',{width:"80px",color:"#36a6de"}],
+    ['IOS 登录次数',{width:"80px",color:"#36a6de"}],
+    ['接收消息数',{width:"80px",color:"#36a6de"}],
+    ['发送消息数',{width:"90px",color:"#36a6de"}],
 ];
