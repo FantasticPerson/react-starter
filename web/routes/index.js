@@ -3,6 +3,7 @@
  */
 import indexApp from '../containers/index'
 import demoPage from './demoPage'
+import formPage from './formPage'
 
 const index = {
     path:'/',
@@ -11,7 +12,8 @@ const index = {
         cb();
     },
     childRoutes:[
-        demoPage
+        demoPage,
+        formPage
     ]
 };
 

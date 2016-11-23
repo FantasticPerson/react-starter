@@ -4,19 +4,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {Router,Route,hashHistory} from 'react-router';
 import {syncHistoryWithStore} from 'react-router-redux';
+import {hashHistory} from 'react-router';
 
-import routes from './routes';
+import App from './containers/app'
 import store from './store';
+
 import './styles/main.styl'
-import injectStore2Route from './utils/injectStore2Route';
 
 const history = syncHistoryWithStore(hashHistory,store);
 let root = (
     <Provider store={store}>
-        <Router history={history} routes={injectStore2Route(routes,store)}/>
+        <App history={history} store={store}/>
     </Provider>
 );
-
 ReactDOM.render(root,document.getElementById('react-root'));
+if(module.hot){
+    module.hot.accept('./containers/app', () => {
+        const nextRoutes = require('./containers/app').default;
+        let root = (
+            <Provider store={store}>
+                <nextRoutes history={history} store={store}/>
+            </Provider>
+        );
+        ReactDOM.render(root,document.getElementById('react-root'));
+    });
+}
+

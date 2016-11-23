@@ -7,6 +7,7 @@ import webpack from 'webpack'
 import {webpackConfig} from './webpack.config.babel'
 import devMiddleware from 'webpack-dev-middleware'
 import hotMiddleware from 'webpack-hot-middleware'
+import path from 'path'
 
 let express = require('express');
 let config = webpackConfig({
@@ -32,6 +33,9 @@ app.use(devMiddleware(compiler,{
 }));
 
 app.use(hotMiddleware(compiler));
+// app.get('*', function (req, res) {
+//     res.sendFile('./main.html');
+// });
 app.use(express.static(DEV_CONST.ASSETS_PUBLIC_DIR, {maxAge:0}));
 app.listen(DEV_CONST.DEV_PORT, '0.0.0.0', (err) => {
     if (err) {

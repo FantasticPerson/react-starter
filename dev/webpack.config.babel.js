@@ -55,10 +55,10 @@ function entryConfig(options) {
 
     if (DEV_CONST.APP_DEBUG) {
         let devServerConfig = [
-            `webpack-dev-server/client?http://127.0.0.1:${DEV_CONST.DEV_PORT}`,
+            'react-hot-loader/patch',
+            `webpack-hot-middleware/client?path=http://127.0.0.1:${DEV_CONST.DEV_PORT}/__webpack_hmr`,
             `webpack/hot/only-dev-server`
         ];
-
         mainConfig = [
             ...devServerConfig,
             ...mainConfig
@@ -170,8 +170,8 @@ export function webpackConfig(options) {
         },
 
         plugins: [
-            DEV_CONST.APP_DEBUG ? new HotModuleReplacementPlugin() : null,
-            new NoErrorsPlugin(),
+            DEV_CONST.APP_DEBUG ? new webpack.HotModuleReplacementPlugin() : null,
+            new webpack.NoErrorsPlugin(),
             new webpack.optimize.DedupePlugin(),
 
             DEV_CONST.APP_DEBUG ? null : new webpack.optimize.UglifyJsPlugin({

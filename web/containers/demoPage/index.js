@@ -20,14 +20,14 @@ class DemoPage extends Component{
             return (
                 <div>
                     <div>
-                        {"welcome to demo page"}
+                        {"welcome to demo page fdgs"}
                     </div>
                     <div style={{color:"green",fontSize:"20px",marginTop:"60px"}}>
                         {title}
                     </div>
                     <button onClick={(e)=>{
                         this.props.dispatch(updateCurrentTitle("new title "+Date.now()));
-                    }}>click to change title</button>
+                    }}>click to change</button>
                 </div>
             )
         } else {
