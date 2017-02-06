@@ -23,6 +23,12 @@ app.use(devMiddleware(compiler,{
         'Access-Control-Allow-Origin': '*',
         "X-Custom-Header": "yes"
     },
+    proxy: {//解决跨域问题
+        '*': {
+            target: 'http://61.155.85.77:10006',
+            secure: false,
+        }
+    },
     stats: { colors: true },
     colors: true,
     hot: true,
